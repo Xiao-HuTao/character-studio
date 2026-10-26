@@ -1,0 +1,1684 @@
+{
+  "schema": 1,
+  "id": "xitelali-2-0-0-lash-endpoints-cry",
+  "name": "希特拉莉 2.0.0 · 原眼起点／校准终点／独立大哭",
+  "created": "2026-10-25T03:23:42.742404+00:00",
+  "package": {
+    "id": "xitelali-legs",
+    "version": "2.0.0",
+    "name": "希特拉莉 2.0.0 · 原眼起点／校准终点／独立大哭",
+    "author": "用户提供角色素材；Codex 适配打包",
+    "license": "代码：AGPL-3.0（沿用 Coopanion kit 的接口与约定）；角色原图及 AI 辅助素材：权利归各自权利人，经用户授权用于此形象包。"
+  },
+  "model": {
+    "canvas": [
+      1300,
+      1050
+    ],
+    "center_x": 650,
+    "feet_y": 1508,
+    "logo_scale": 0.17,
+    "accent": "#9d74bb",
+    "gaze": {
+      "x": 0.8,
+      "y": 0.6,
+      "k": 0.2,
+      "ky": 0.5
+    },
+    "tune": {
+      "idle": {
+        "breath": 1,
+        "sway": 1,
+        "head": 1,
+        "arm": 1
+      },
+      "walk": {
+        "arm": 0.55,
+        "leg": 0.65
+      },
+      "run": {
+        "arm": 0.8,
+        "leg": 0.85
+      },
+      "wave": {
+        "angle": 0.85,
+        "head": 0.7
+      },
+      "jump": {
+        "arm": 0.7,
+        "leg": 0.7
+      },
+      "drag": {
+        "flail": 0.7,
+        "leg": 0.7
+      },
+      "dance": {
+        "arm": 1,
+        "head": 1
+      },
+      "bow": {
+        "angle": 1
+      },
+      "blink": 1,
+      "dizzy": {
+        "spin": 2.6
+      },
+      "flustered": {
+        "jitter": 0.2
+      }
+    },
+    "feat": {
+      "mouths": {
+        "smile": "feat/mouth_smile.png",
+        "o": "feat/mouth_o.png",
+        "wavy": "feat/mouth_wavy.png",
+        "pout": "feat/mouth_pout.png"
+      },
+      "box": [
+        589,
+        620,
+        200,
+        100
+      ],
+      "eyes": {
+        "dizzy": {
+          "near": "feat/eye_dizzy_near.png",
+          "far": "feat/eye_dizzy_far.png"
+        },
+        "drag": {
+          "near": "feat/eye_drag_near.png",
+          "far": "feat/eye_drag_far.png"
+        }
+      },
+      "eyeBoxes": {
+        "near": [
+          461,
+          511,
+          200,
+          140
+        ],
+        "far": [
+          700,
+          529,
+          140,
+          110
+        ]
+      },
+      "expressionEyes": {
+        "happy": {
+          "near": {
+            "file": "feat/happy_atlas.png",
+            "region": [
+              0,
+              0,
+              0.5,
+              0.65
+            ],
+            "box": [
+              475,
+              562,
+              180,
+              38
+            ]
+          },
+          "far": {
+            "file": "feat/happy_atlas.png",
+            "region": [
+              0.5,
+              0,
+              0.5,
+              0.65
+            ],
+            "box": [
+              727,
+              568,
+              103,
+              28
+            ]
+          }
+        },
+        "sleep": {
+          "near": {
+            "file": "feat/sleep_atlas.png",
+            "region": [
+              0,
+              0,
+              0.5,
+              0.65
+            ],
+            "box": [
+              475,
+              565,
+              180,
+              34
+            ]
+          },
+          "far": {
+            "file": "feat/sleep_atlas.png",
+            "region": [
+              0.5,
+              0,
+              0.5,
+              0.65
+            ],
+            "box": [
+              727,
+              570,
+              103,
+              25
+            ]
+          }
+        }
+      },
+      "mouthSprites": {
+        "happyOpen": {
+          "file": "feat/happy_atlas.png",
+          "region": [
+            0.25,
+            0.65,
+            0.5,
+            0.35
+          ],
+          "box": [
+            659,
+            650,
+            58,
+            42
+          ]
+        },
+        "sleepOval": {
+          "file": "feat/sleep_atlas.png",
+          "region": [
+            0.25,
+            0.65,
+            0.5,
+            0.35
+          ],
+          "box": [
+            679,
+            665,
+            20,
+            14
+          ]
+        },
+        "excitedOpen": {
+          "file": "feat/happy_atlas.png",
+          "region": [
+            0.25,
+            0.65,
+            0.5,
+            0.35
+          ],
+          "box": [
+            659,
+            650,
+            58,
+            42
+          ]
+        },
+        "worried": {
+          "type": "line",
+          "form": "worried",
+          "box": [
+            664,
+            665,
+            48,
+            16
+          ]
+        },
+        "frown": {
+          "type": "line",
+          "form": "frown",
+          "box": [
+            670,
+            666,
+            36,
+            13
+          ]
+        },
+        "surpriseOval": {
+          "file": "feat/mouth_o.png",
+          "region": [
+            0,
+            0,
+            1,
+            1
+          ],
+          "box": [
+            675,
+            655,
+            28,
+            34
+          ]
+        }
+      },
+      "smallOverlays": {
+        "near": [
+          582,
+          565,
+          30,
+          30
+        ],
+        "far": [
+          754,
+          574,
+          22,
+          24
+        ]
+      }
+    },
+    "physics": {
+      "parts": {
+        "part_11": {
+          "group": "hair",
+          "rootY": 480,
+          "tipY": 1292,
+          "gain": 1
+        },
+        "part_6": {
+          "group": "hair",
+          "rootY": 400,
+          "tipY": 949,
+          "gain": 0.6
+        },
+        "part_8": {
+          "group": "hair",
+          "rootY": 440,
+          "tipY": 837,
+          "gain": 0.55
+        },
+        "part_21": {
+          "group": "hair",
+          "rootY": 310,
+          "tipY": 609,
+          "gain": 0.35
+        },
+        "part_9": {
+          "group": "bangs",
+          "rootY": 310,
+          "tipY": 671,
+          "gain": 1
+        },
+        "part_22": {
+          "group": "ribbon",
+          "rootY": 555,
+          "tipY": 827,
+          "gain": 1
+        },
+        "part_14": {
+          "group": "skirt",
+          "rootY": 1000,
+          "tipY": 1304,
+          "gain": 1
+        },
+        "part_20": {
+          "group": "skirt",
+          "rootY": 1000,
+          "tipY": 1304,
+          "gain": 1
+        }
+      }
+    },
+    "seatedLegs": {
+      "bodyDrop": 27.25704681500449,
+      "floor": 256,
+      "assemblyBodyDropMaster": 210.0,
+      "poseOffsetY": -8.442953184995513,
+      "assemblyLowest": 1557.6644304999736,
+      "calibratedLayers": {
+        "part_11": 1,
+        "part_14": 2,
+        "part_16": 3,
+        "part_17": 4,
+        "seated-leg-near": 5,
+        "seated_leg_far1": 6,
+        "face": 7,
+        "part_30": 8,
+        "part_29": 9,
+        "part_6": 10,
+        "part_10": 11,
+        "part_21": 12,
+        "part_22": 13,
+        "part_8": 14,
+        "part_9": 15,
+        "part_7": 16,
+        "part_1": 17,
+        "part_13": 18,
+        "part_20": 19,
+        "part_12": 20,
+        "part_2": 21,
+        "part_24": 22,
+        "part_23": 23,
+        "part_25": 24,
+        "part_26": 25,
+        "part_27": 26,
+        "part_28": 27
+      },
+      "parts": [
+        {
+          "id": "seated-leg-near",
+          "file": "tex/seated-leg-near.png",
+          "box": [
+            243,
+            1090,
+            535,
+            556
+          ],
+          "z": 5,
+          "side": "Near",
+          "source": [
+            0,
+            0,
+            1230,
+            1278
+          ],
+          "rotation": 106,
+          "groundPoint": [
+            745.8130081300812,
+            1564.6447574334898
+          ],
+          "assemblyLowest": 1539.994740297227,
+          "groundOffset": -8.442953184995513
+        },
+        {
+          "id": "seated_leg_far1",
+          "file": "tex/seated_leg_far1.png",
+          "box": [
+            566,
+            1098,
+            512,
+            530
+          ],
+          "z": 6,
+          "side": "Far",
+          "source": [
+            0,
+            0,
+            1230,
+            1278
+          ],
+          "rotation": -101,
+          "groundPoint": [
+            588.0617886178861,
+            1546.302034428795
+          ],
+          "assemblyLowest": 1557.6644304999736,
+          "groundOffset": -8.442953184995513
+        }
+      ]
+    },
+    "browMotion": {
+      "ids": {
+        "near": "part_29",
+        "far": "part_30"
+      },
+      "poses": {
+        "neutral": [
+          [
+            0,
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            0.0,
+            0.0,
+            0.0
+          ]
+        ],
+        "surprised": [
+          [
+            16,
+            4,
+            3,
+            0
+          ],
+          [
+            16,
+            3.12,
+            2.34,
+            0.0
+          ]
+        ],
+        "worried": [
+          [
+            4,
+            14,
+            -1,
+            2
+          ],
+          [
+            4,
+            10.92,
+            -0.78,
+            1.56
+          ]
+        ],
+        "shy": [
+          [
+            2,
+            8,
+            -1,
+            1.5
+          ],
+          [
+            2,
+            6.24,
+            -0.78,
+            1.17
+          ]
+        ],
+        "thinking": [
+          [
+            -3,
+            -7,
+            -1,
+            1.5
+          ],
+          [
+            13,
+            3,
+            2,
+            0
+          ]
+        ],
+        "confused": [
+          [
+            -3,
+            -9,
+            -1,
+            1
+          ],
+          [
+            18,
+            4,
+            2.5,
+            0
+          ]
+        ],
+        "pout": [
+          [
+            -5,
+            -9,
+            -1,
+            2.5
+          ],
+          [
+            -5,
+            -7.0200000000000005,
+            -0.78,
+            1.9500000000000002
+          ]
+        ],
+        "love": [
+          [
+            8,
+            6,
+            2,
+            0
+          ],
+          [
+            8,
+            4.68,
+            1.56,
+            0.0
+          ]
+        ],
+        "excited": [
+          [
+            13,
+            2,
+            3,
+            0
+          ],
+          [
+            13,
+            1.56,
+            2.34,
+            0.0
+          ]
+        ],
+        "flustered": [
+          [
+            5,
+            14,
+            -1,
+            2
+          ],
+          [
+            5,
+            10.92,
+            -0.78,
+            1.56
+          ]
+        ],
+        "dragged": [
+          [
+            2,
+            16,
+            -1,
+            2
+          ],
+          [
+            2,
+            12.48,
+            -0.78,
+            1.56
+          ]
+        ],
+        "dizzy": [
+          [
+            7,
+            8,
+            0,
+            0
+          ],
+          [
+            -4,
+            -7,
+            0,
+            0
+          ]
+        ]
+      },
+      "rates": {
+        "surprised": 16,
+        "excited": 13,
+        "flustered": 14,
+        "dragged": 14,
+        "worried": 6,
+        "shy": 6,
+        "thinking": 8,
+        "confused": 9,
+        "pout": 8,
+        "love": 7,
+        "dizzy": 8,
+        "neutral": 9
+      },
+      "blinkDrop": 1.5,
+      "talkLift": 3.5,
+      "limits": {
+        "lift": 20,
+        "innerRise": 18,
+        "curve": 3,
+        "inward": 3
+      }
+    }
+  },
+  "defaults": {
+    "tune": {
+      "idle": {
+        "breath": 1,
+        "sway": 1,
+        "head": 1,
+        "arm": 1
+      },
+      "walk": {
+        "arm": 0.55,
+        "leg": 0.65
+      },
+      "run": {
+        "arm": 0.8,
+        "leg": 0.85
+      },
+      "wave": {
+        "angle": 0.85,
+        "head": 0.7
+      },
+      "jump": {
+        "arm": 0.7,
+        "leg": 0.7
+      },
+      "drag": {
+        "flail": 0.7,
+        "leg": 0.7
+      },
+      "dance": {
+        "arm": 1,
+        "head": 1
+      },
+      "bow": {
+        "angle": 1
+      },
+      "blink": 1,
+      "dizzy": {
+        "spin": 2.6
+      },
+      "flustered": {
+        "jitter": 0.2
+      }
+    }
+  },
+  "credits": [
+    {
+      "role": "角色原图、拆件与装配",
+      "name": "用户提供的希特拉莉 0.0.7 拆件与装配"
+    },
+    {
+      "role": "宿主身体、物理与手势接口",
+      "name": "Pal-AI-Lab / Coopanion",
+      "url": "https://github.com/Pal-AI-Lab/Coopanion"
+    },
+    {
+      "role": "本版平铺部件绘制适配与打包",
+      "name": "Codex · 用户指导制作"
+    },
+    {
+      "role": "开心与闭眼表情差分",
+      "name": "OpenAI 内置 imagegen，参考用户角色及 whale/feat 绘制"
+    },
+    {
+      "role": "坐姿近腿与远腿绘制",
+      "name": "OpenAI 内置 imagegen，依据原角色及双靴参考生成"
+    },
+    {
+      "role": "本版坐姿装配与远腿素材调整",
+      "name": "用户完成；Codex 同步运行时及打包"
+    }
+  ],
+  "source": {
+    "kind": "expression-v2-review",
+    "path": "E:\\codex work\\xitelali\\xitelali pro\\xitelali-1.4.0-brows",
+    "upstream_manifest": {
+      "manifest": 2,
+      "api": 2,
+      "id": "xitelali-legs",
+      "version": "1.4.0-brows",
+      "name": {
+        "zh": "希特拉莉",
+        "en": "Xitelali"
+      },
+      "about": {
+        "zh": "两条眉毛独立运动、表情平滑过渡；眼睛眼睑与身体动作沿用 1.3.5。"
+      },
+      "author": "用户提供角色素材；Codex 适配打包",
+      "license": "代码：AGPL-3.0（沿用 Coopanion kit 的接口与约定）；角色原图及 AI 辅助素材：权利归各自权利人，经用户授权用于此形象包。",
+      "credits": [
+        {
+          "role": "角色原图、拆件与装配",
+          "name": "用户提供的希特拉莉 0.0.7 拆件与装配"
+        },
+        {
+          "role": "宿主身体、物理与手势接口",
+          "name": "Pal-AI-Lab / Coopanion",
+          "url": "https://github.com/Pal-AI-Lab/Coopanion"
+        },
+        {
+          "role": "本版平铺部件绘制适配与打包",
+          "name": "Codex · 用户指导制作"
+        },
+        {
+          "role": "开心与闭眼表情差分",
+          "name": "OpenAI 内置 imagegen，参考用户角色及 whale/feat 绘制"
+        },
+        {
+          "role": "坐姿近腿与远腿绘制",
+          "name": "OpenAI 内置 imagegen，依据原角色及双靴参考生成"
+        },
+        {
+          "role": "本版坐姿装配与远腿素材调整",
+          "name": "用户完成；Codex 同步运行时及打包"
+        }
+      ],
+      "entry": "figure.js",
+      "export": "createRigBody",
+      "model": "model.json",
+      "thumb": "thumbnail.png",
+      "axes": [],
+      "presets": [],
+      "vocab": [
+        {
+          "id": "neutral",
+          "kind": "expression",
+          "names": {
+            "zh": [
+              "平静"
+            ]
+          },
+          "about": {
+            "zh": "平静"
+          },
+          "seconds": 4
+        },
+        {
+          "id": "happy",
+          "kind": "expression",
+          "names": {
+            "zh": [
+              "开心"
+            ]
+          },
+          "about": {
+            "zh": "开心"
+          },
+          "seconds": 4
+        },
+        {
+          "id": "wink",
+          "kind": "expression",
+          "names": {
+            "zh": [
+              "眨眼"
+            ]
+          },
+          "about": {
+            "zh": "眨眼"
+          },
+          "seconds": 4
+        },
+        {
+          "id": "love",
+          "kind": "expression",
+          "names": {
+            "zh": [
+              "喜欢"
+            ]
+          },
+          "about": {
+            "zh": "喜欢"
+          },
+          "seconds": 4
+        },
+        {
+          "id": "shy",
+          "kind": "expression",
+          "names": {
+            "zh": [
+              "害羞"
+            ]
+          },
+          "about": {
+            "zh": "害羞"
+          },
+          "seconds": 4
+        },
+        {
+          "id": "surprised",
+          "kind": "expression",
+          "names": {
+            "zh": [
+              "惊讶"
+            ]
+          },
+          "about": {
+            "zh": "惊讶"
+          },
+          "seconds": 4
+        },
+        {
+          "id": "angry",
+          "kind": "expression",
+          "names": {
+            "zh": [
+              "生气"
+            ]
+          },
+          "about": {
+            "zh": "生气"
+          },
+          "seconds": 4
+        },
+        {
+          "id": "sad",
+          "kind": "expression",
+          "names": {
+            "zh": [
+              "难过"
+            ]
+          },
+          "about": {
+            "zh": "难过"
+          },
+          "seconds": 4
+        },
+        {
+          "id": "sleepy",
+          "kind": "expression",
+          "names": {
+            "zh": [
+              "犯困"
+            ]
+          },
+          "about": {
+            "zh": "犯困"
+          },
+          "seconds": 4
+        },
+        {
+          "id": "thinking",
+          "kind": "expression",
+          "names": {
+            "zh": [
+              "思考"
+            ]
+          },
+          "about": {
+            "zh": "思考"
+          },
+          "seconds": 4
+        },
+        {
+          "id": "smug",
+          "kind": "expression",
+          "names": {
+            "zh": [
+              "得意"
+            ]
+          },
+          "about": {
+            "zh": "得意"
+          },
+          "seconds": 4
+        },
+        {
+          "id": "pout",
+          "kind": "expression",
+          "names": {
+            "zh": [
+              "嘟嘴"
+            ]
+          },
+          "about": {
+            "zh": "嘟嘴"
+          },
+          "seconds": 4
+        },
+        {
+          "id": "worried",
+          "kind": "expression",
+          "names": {
+            "zh": [
+              "担心"
+            ]
+          },
+          "about": {
+            "zh": "担心"
+          },
+          "seconds": 4
+        },
+        {
+          "id": "determined",
+          "kind": "expression",
+          "names": {
+            "zh": [
+              "认真"
+            ]
+          },
+          "about": {
+            "zh": "认真"
+          },
+          "seconds": 4
+        },
+        {
+          "id": "flustered",
+          "kind": "expression",
+          "names": {
+            "zh": [
+              "慌张"
+            ]
+          },
+          "about": {
+            "zh": "慌张"
+          },
+          "seconds": 4
+        },
+        {
+          "id": "scared",
+          "kind": "expression",
+          "names": {
+            "zh": [
+              "害怕"
+            ]
+          },
+          "about": {
+            "zh": "害怕"
+          },
+          "seconds": 4
+        },
+        {
+          "id": "excited",
+          "kind": "expression",
+          "names": {
+            "zh": [
+              "期待"
+            ]
+          },
+          "about": {
+            "zh": "期待"
+          },
+          "seconds": 4
+        },
+        {
+          "id": "cry",
+          "kind": "expression",
+          "names": {
+            "zh": [
+              "大哭"
+            ]
+          },
+          "about": {
+            "zh": "大哭"
+          },
+          "seconds": 4
+        },
+        {
+          "id": "confused",
+          "kind": "expression",
+          "names": {
+            "zh": [
+              "疑惑"
+            ]
+          },
+          "about": {
+            "zh": "疑惑"
+          },
+          "seconds": 4
+        },
+        {
+          "id": "stand",
+          "kind": "motion",
+          "names": {
+            "zh": [
+              "站起"
+            ]
+          },
+          "about": {
+            "zh": "站起"
+          },
+          "seconds": 4
+        },
+        {
+          "id": "jump",
+          "kind": "motion",
+          "names": {
+            "zh": [
+              "跳跃"
+            ]
+          },
+          "about": {
+            "zh": "跳跃"
+          },
+          "seconds": 4
+        },
+        {
+          "id": "hop",
+          "kind": "motion",
+          "names": {
+            "zh": [
+              "小跳"
+            ]
+          },
+          "about": {
+            "zh": "小跳"
+          },
+          "seconds": 4
+        },
+        {
+          "id": "look",
+          "kind": "motion",
+          "names": {
+            "zh": [
+              "张望"
+            ]
+          },
+          "about": {
+            "zh": "张望"
+          },
+          "seconds": 4
+        },
+        {
+          "id": "turn",
+          "kind": "motion",
+          "names": {
+            "zh": [
+              "转身"
+            ]
+          },
+          "about": {
+            "zh": "转身"
+          },
+          "seconds": 4
+        },
+        {
+          "id": "nod",
+          "kind": "motion",
+          "names": {
+            "zh": [
+              "点头"
+            ]
+          },
+          "about": {
+            "zh": "点头"
+          },
+          "seconds": 4
+        },
+        {
+          "id": "shake",
+          "kind": "motion",
+          "names": {
+            "zh": [
+              "摇头"
+            ]
+          },
+          "about": {
+            "zh": "摇头"
+          },
+          "seconds": 4
+        },
+        {
+          "id": "spin",
+          "kind": "motion",
+          "names": {
+            "zh": [
+              "转圈"
+            ]
+          },
+          "about": {
+            "zh": "转圈"
+          },
+          "seconds": 4
+        },
+        {
+          "id": "sit",
+          "kind": "motion",
+          "names": {
+            "zh": [
+              "坐下"
+            ]
+          },
+          "about": {
+            "zh": "坐下"
+          },
+          "seconds": 4
+        },
+        {
+          "id": "sleep",
+          "kind": "motion",
+          "names": {
+            "zh": [
+              "睡觉"
+            ]
+          },
+          "about": {
+            "zh": "睡觉"
+          },
+          "seconds": 4
+        },
+        {
+          "id": "dizzy",
+          "kind": "motion",
+          "names": {
+            "zh": [
+              "眩晕"
+            ]
+          },
+          "about": {
+            "zh": "眩晕"
+          },
+          "seconds": 4
+        },
+        {
+          "id": "walk",
+          "kind": "motion",
+          "names": {
+            "zh": [
+              "走路"
+            ]
+          },
+          "about": {
+            "zh": "走路"
+          },
+          "seconds": 4
+        },
+        {
+          "id": "run",
+          "kind": "motion",
+          "names": {
+            "zh": [
+              "跑步"
+            ]
+          },
+          "about": {
+            "zh": "跑步"
+          },
+          "seconds": 4
+        },
+        {
+          "id": "wave",
+          "kind": "motion",
+          "names": {
+            "zh": [
+              "挥手"
+            ]
+          },
+          "about": {
+            "zh": "挥手"
+          },
+          "seconds": 4
+        },
+        {
+          "id": "bow",
+          "kind": "motion",
+          "names": {
+            "zh": [
+              "鞠躬"
+            ]
+          },
+          "about": {
+            "zh": "鞠躬"
+          },
+          "seconds": 4
+        },
+        {
+          "id": "shiver",
+          "kind": "motion",
+          "names": {
+            "zh": [
+              "发抖"
+            ]
+          },
+          "about": {
+            "zh": "发抖"
+          },
+          "seconds": 4
+        },
+        {
+          "id": "flap",
+          "kind": "motion",
+          "names": {
+            "zh": [
+              "扑腾"
+            ]
+          },
+          "about": {
+            "zh": "扑腾"
+          },
+          "seconds": 4
+        },
+        {
+          "id": "dance",
+          "kind": "motion",
+          "names": {
+            "zh": [
+              "跳舞"
+            ]
+          },
+          "about": {
+            "zh": "跳舞"
+          },
+          "seconds": 4
+        }
+      ],
+      "sounds": {},
+      "can": {
+        "walk": true
+      },
+      "moves": [],
+      "needs": []
+    },
+    "baselinePath": "E:\\codex work\\xitelali\\xitelali pro\\xitelali-1.4.0-brows",
+    "baselineVersion": "1.4.0-brows",
+    "workspace": "E:\\codex work\\xitelali\\xitelali pro\\xitelali-2.0.0",
+    "pendingStage": "user-calibrating-endpoints-and-cry",
+    "expressionGroups": {
+      "neutral": {
+        "name": "平静",
+        "parts": [
+          "part_23",
+          "part_26",
+          "part_28",
+          "part_24",
+          "part_25",
+          "part_27",
+          "part_29",
+          "part_30",
+          "part_2"
+        ],
+        "hideBase": []
+      },
+      "happy": {
+        "name": "开心",
+        "parts": [
+          "happy_eyeL",
+          "happy_eyeR",
+          "part_29",
+          "part_30",
+          "happy_mouth"
+        ],
+        "hideBase": [
+          "part_23",
+          "part_26",
+          "part_28",
+          "part_24",
+          "part_25",
+          "part_27",
+          "part_2"
+        ]
+      },
+      "wink": {
+        "name": "眨眼（单眼）",
+        "parts": [
+          "part_23",
+          "part_26",
+          "part_28",
+          "happy_eyeR",
+          "part_29",
+          "part_30",
+          "happy_mouth"
+        ],
+        "hideBase": [
+          "part_24",
+          "part_25",
+          "part_27",
+          "part_2"
+        ]
+      },
+      "love": {
+        "name": "喜欢 · 爱心 A",
+        "parts": [
+          "love_eyeL",
+          "love_eyeR",
+          "part_29",
+          "part_30",
+          "love_mouth"
+        ],
+        "hideBase": [
+          "part_23",
+          "part_26",
+          "part_28",
+          "part_24",
+          "part_25",
+          "part_27",
+          "part_2"
+        ]
+      },
+      "shy": {
+        "name": "害羞",
+        "parts": [
+          "part_23",
+          "part_26",
+          "part_28",
+          "part_24",
+          "part_25",
+          "part_27",
+          "part_29",
+          "part_30",
+          "drag_mouth"
+        ],
+        "hideBase": [
+          "part_2"
+        ]
+      },
+      "surprised": {
+        "name": "惊讶 · 原眼＋嘴型",
+        "parts": [
+          "part_23",
+          "part_26",
+          "part_28",
+          "part_24",
+          "part_25",
+          "part_27",
+          "part_29",
+          "part_30",
+          "surprised_mouth"
+        ],
+        "hideBase": [
+          "part_2"
+        ]
+      },
+      "angry": {
+        "name": "生气",
+        "parts": [
+          "part_23",
+          "part_26",
+          "part_28",
+          "part_24",
+          "part_25",
+          "part_27",
+          "part_29",
+          "part_30",
+          "drag_mouth"
+        ],
+        "hideBase": [
+          "part_2"
+        ]
+      },
+      "sad": {
+        "name": "难过",
+        "parts": [
+          "part_23",
+          "part_26",
+          "part_28",
+          "part_24",
+          "part_25",
+          "part_27",
+          "part_29",
+          "part_30",
+          "drag_mouth"
+        ],
+        "hideBase": [
+          "part_2"
+        ]
+      },
+      "sleepy": {
+        "name": "犯困",
+        "parts": [
+          "part_23",
+          "part_26",
+          "part_28",
+          "part_24",
+          "part_25",
+          "part_27",
+          "part_29",
+          "part_30",
+          "sleep_mouth"
+        ],
+        "hideBase": [
+          "part_2"
+        ]
+      },
+      "thinking": {
+        "name": "思考",
+        "parts": [
+          "part_23",
+          "part_26",
+          "part_28",
+          "part_24",
+          "part_25",
+          "part_27",
+          "part_29",
+          "part_30",
+          "sleep_mouth"
+        ],
+        "hideBase": [
+          "part_2"
+        ]
+      },
+      "smug": {
+        "name": "得意",
+        "parts": [
+          "part_23",
+          "part_26",
+          "part_28",
+          "part_24",
+          "part_25",
+          "part_27",
+          "part_29",
+          "part_30",
+          "part_2"
+        ],
+        "hideBase": []
+      },
+      "pout": {
+        "name": "嘟嘴",
+        "parts": [
+          "part_23",
+          "part_26",
+          "part_28",
+          "part_24",
+          "part_25",
+          "part_27",
+          "part_29",
+          "part_30",
+          "surprised_mouth"
+        ],
+        "hideBase": [
+          "part_2"
+        ]
+      },
+      "worried": {
+        "name": "担心",
+        "parts": [
+          "part_23",
+          "part_26",
+          "part_28",
+          "part_24",
+          "part_25",
+          "part_27",
+          "part_29",
+          "part_30",
+          "drag_mouth"
+        ],
+        "hideBase": [
+          "part_2"
+        ]
+      },
+      "determined": {
+        "name": "认真",
+        "parts": [
+          "part_23",
+          "part_26",
+          "part_28",
+          "part_24",
+          "part_25",
+          "part_27",
+          "part_29",
+          "part_30",
+          "part_2"
+        ],
+        "hideBase": []
+      },
+      "flustered": {
+        "name": "慌张",
+        "parts": [
+          "drag_eyeL",
+          "drag_eyeR",
+          "part_29",
+          "part_30",
+          "drag_mouth"
+        ],
+        "hideBase": [
+          "part_23",
+          "part_26",
+          "part_28",
+          "part_24",
+          "part_25",
+          "part_27",
+          "part_2"
+        ]
+      },
+      "scared": {
+        "name": "害怕",
+        "parts": [
+          "part_23",
+          "part_26",
+          "part_28",
+          "part_24",
+          "part_25",
+          "part_27",
+          "part_29",
+          "part_30",
+          "drag_mouth"
+        ],
+        "hideBase": [
+          "part_2"
+        ]
+      },
+      "excited": {
+        "name": "期待",
+        "parts": [
+          "part_23",
+          "part_26",
+          "part_28",
+          "part_24",
+          "part_25",
+          "part_27",
+          "part_29",
+          "part_30",
+          "happy_mouth"
+        ],
+        "hideBase": [
+          "part_2"
+        ]
+      },
+      "cry": {
+        "name": "大哭 · 新绘左右眼＋嘴型",
+        "parts": [
+          "cry_eyeL",
+          "cry_eyeR",
+          "part_29",
+          "part_30",
+          "cry_mouth"
+        ],
+        "hideBase": [
+          "part_23",
+          "part_26",
+          "part_28",
+          "part_24",
+          "part_25",
+          "part_27",
+          "part_2"
+        ]
+      },
+      "confused": {
+        "name": "疑惑",
+        "parts": [
+          "part_23",
+          "part_26",
+          "part_28",
+          "part_24",
+          "part_25",
+          "part_27",
+          "part_29",
+          "part_30",
+          "drag_mouth"
+        ],
+        "hideBase": [
+          "part_2"
+        ]
+      }
+    },
+    "expressionVariantIds": [
+      "happy_eyeL",
+      "happy_eyeR",
+      "happy_mouth",
+      "sleep_eyeL",
+      "sleep_eyeR",
+      "sleep_mouth",
+      "love_eyeL",
+      "love_eyeR",
+      "love_mouth",
+      "surprised_mouth",
+      "drag_eyeL",
+      "drag_eyeR",
+      "drag_mouth",
+      "dizzy_eyeL",
+      "dizzy_eyeR",
+      "dizzy_mouth",
+      "cry_eyeL",
+      "cry_eyeR",
+      "cry_mouth"
+    ],
+    "expressionLabels": {
+      "part_23": "左眼 · 眼白",
+      "part_26": "左眼 · 虹膜",
+      "part_28": "左眼 · 原睫毛＋眼睑（part28）",
+      "part_24": "右眼 · 眼白",
+      "part_25": "右眼 · 虹膜",
+      "part_27": "右眼 · 原睫毛＋眼睑（part27）",
+      "part_2": "原嘴型",
+      "eyeL_lid": "左眼 · 近眼",
+      "eyeR_lid": "右眼 · 远眼",
+      "happy_eyeL": "左眼 · 近眼",
+      "happy_eyeR": "右眼 · 远眼",
+      "happy_mouth": "嘴型",
+      "sleep_eyeL": "左眼 · 近眼",
+      "sleep_eyeR": "右眼 · 远眼",
+      "sleep_mouth": "嘴型",
+      "love_eyeL": "左眼 · 近眼",
+      "love_eyeR": "右眼 · 远眼",
+      "love_mouth": "嘴型",
+      "love_alt_eyeL": "左眼 · 近眼",
+      "love_alt_eyeR": "右眼 · 远眼",
+      "surprised_mouth": "嘴型",
+      "surprised_eyeL": "左眼 · 近眼",
+      "surprised_eyeR": "右眼 · 远眼",
+      "surprised_alt_eyeL": "左眼 · 近眼",
+      "surprised_alt_eyeR": "右眼 · 远眼",
+      "drag_eyeL": "左眼 · 近眼",
+      "drag_eyeR": "右眼 · 远眼",
+      "drag_mouth": "嘴型",
+      "dizzy_eyeL": "左眼 · 近眼",
+      "dizzy_eyeR": "右眼 · 远眼",
+      "dizzy_mouth": "嘴型",
+      "part_29": "近侧眉毛",
+      "part_30": "远侧眉毛",
+      "cry_eyeL": "大哭 · 左眼／近眼＋泪水",
+      "cry_eyeR": "大哭 · 右眼／远眼＋泪水",
+      "cry_mouth": "大哭 · 独立嘴型"
+    },
+    "alwaysHidden": [
+      "part_14",
+      "part_16",
+      "part_17",
+      "part_13",
+      "part_20",
+      "part_12"
+    ],
+    "defaultExpressionChoices": {
+      "love": "love",
+      "surprised": "surprised",
+      "eyelids": {
+        "near": "part_28",
+        "far": "part_27"
+      }
+    },
+    "note": "爱心A、惊讶原眼＋嘴型；part27/28 为睫毛与眼睑整合贴图。动态预览已接入 1.4.0 基础运行时。",
+    "baselineSnapshotPath": "E:\\codex work\\xitelali\\xitelali pro\\xitelali-2.0.0\\baseline-1.4.0",
+    "eyelidParts": {
+      "near": "part_28",
+      "far": "part_27"
+    },
+    "runtimePath": "E:\\codex work\\xitelali\\xitelali pro\\xitelali-2.0.0",
+    "abandonedVariants": [
+      "eyeL_lid",
+      "eyeR_lid",
+      "love_alt_eyeL",
+      "love_alt_eyeR",
+      "surprised_alt_eyeL",
+      "surprised_alt_eyeR",
+      "surprised_eyeL",
+      "surprised_eyeR"
+    ],
+    "calibrationFacialIds": [
+      "part_23",
+      "part_26",
+      "part_28",
+      "part_24",
+      "part_25",
+      "part_27",
+      "part_29",
+      "part_30",
+      "part_2",
+      "happy_eyeL",
+      "happy_eyeR",
+      "happy_mouth",
+      "sleep_eyeL",
+      "sleep_eyeR",
+      "sleep_mouth",
+      "love_eyeL",
+      "love_eyeR",
+      "love_mouth",
+      "surprised_mouth",
+      "drag_eyeL",
+      "drag_eyeR",
+      "drag_mouth",
+      "dizzy_eyeL",
+      "dizzy_eyeR",
+      "dizzy_mouth",
+      "cry_eyeL",
+      "cry_eyeR",
+      "cry_mouth"
+    ],
+    "calibrationSource": "xitelali-2-0-0-lash-fixed",
+    "eyelidMotion": {
+      "minScale": {
+        "near": 0.8,
+        "far": 0.8
+      },
+      "scalePower": 1.3,
+      "mask": "transformed-alpha-contour"
+    }
+  }
+}

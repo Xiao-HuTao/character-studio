@@ -1,0 +1,21 @@
+{
+  "displayName": "老酸奶",
+  "author": {
+    "name": "Xiao-HuTao",
+    "github": "Xiao-HuTao",
+    "url": "https://github.com/Xiao-HuTao"
+  },
+  "authorScope": "形象包制作、组装、表情／眨眼／坐姿校准、整合维护",
+  "previousDisplayName": "希特拉莉",
+  "characterOrigin": "希特拉莉（Citlali）角色素材；原角色设计与素材权利归各自原权利人",
+  "productionSource": "此前作者提供的角色拆件与 2.1.0 已确认制作工程",
+  "assistance": [
+    "OpenAI Codex 辅助开发与整合",
+    "OpenAI imagegen 辅助制作部分表情及坐姿素材"
+  ],
+  "runtimeUpstream": {
+    "name": "Pal-AI-Lab / Coopanion",
+    "url": "https://github.com/Pal-AI-Lab/Coopanion"
+  },
+  "preserveOriginalSourcePack": true
+}

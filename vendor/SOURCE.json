@@ -1,0 +1,8 @@
+{
+  "repository": "https://github.com/Pal-AI-Lab/Coopanion",
+  "license": "AGPL-3.0-or-later",
+  "local_source": "Copied from the existing xitelali motion-preview/vendor/kit in this workspace",
+  "files": ["kit/body.js", "kit/rig.js", "kit/LICENSE"],
+  "changes_to_vendored_js": "None",
+  "note": "No external character textures are bundled in vendor. Example assets retain their original rights and credits in projects/xitelali-demo/project.json."
+}

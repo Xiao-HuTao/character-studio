@@ -1,0 +1,11 @@
+{
+  "passed": true,
+  "name": "character-studio",
+  "localReferencesChecked": [
+    "references/project-contract.md"
+  ],
+  "uiMetadataChecked": true,
+  "unfinishedPlaceholders": false,
+  "officialValidator": "unavailable: PyYAML is not installed",
+  "method": "Strict validation of the two-scalar frontmatter subset, generated UI metadata and reference files; no full YAML parser claimed"
+}

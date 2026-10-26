@@ -1,0 +1,86 @@
+{
+  "passed": true,
+  "errors": [],
+  "expressionCount": 19,
+  "expressionMaxError": 6.355287432313019e-14,
+  "layerErrors": 0,
+  "alphaErrors": 0,
+  "textureDifferences": 0,
+  "transitionFrameCount": 20,
+  "transitionMaxError": 8.03887338846093e-14,
+  "headTracking": false,
+  "pauseStable": true,
+  "standaloneEntry": true,
+  "blinkProgress": [
+    0,
+    0.1,
+    0.25,
+    0.5,
+    0.75,
+    0.9,
+    0.98,
+    1,
+    0
+  ],
+  "blinkNearOpaquePixels": [
+    333500,
+    329065,
+    324252,
+    259277,
+    86234,
+    14969,
+    481,
+    0,
+    333500
+  ],
+  "blinkFarOpaquePixels": [
+    671913,
+    654792,
+    636813,
+    525616,
+    176236,
+    30630,
+    1298,
+    0,
+    671913
+  ],
+  "blinkMaxEndpointError": 2.8421709430404014e-14,
+  "bodyCases": [
+    {
+      "word": "sit",
+      "equal": true
+    },
+    {
+      "word": "sleep",
+      "equal": true
+    },
+    {
+      "word": "dizzy",
+      "equal": true
+    },
+    {
+      "word": "stand",
+      "equal": true
+    },
+    {
+      "word": "walk",
+      "equal": true
+    },
+    {
+      "word": "run",
+      "equal": true
+    },
+    {
+      "word": "jump",
+      "equal": true
+    },
+    {
+      "word": "wave",
+      "equal": true
+    },
+    {
+      "word": "bow",
+      "equal": true
+    }
+  ]
+}

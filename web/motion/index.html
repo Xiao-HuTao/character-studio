@@ -1,0 +1,27 @@
+<!doctype html>
+<html lang="zh-CN">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><link rel="icon" href="data:,"><title>角色工程台 · 动作预览</title><script src="/web/common.js"></script><link rel="stylesheet" href="./style.css"></head>
+<body><nav class="studio-nav"><a href="/">✦ 角色工程台</a><button onclick="studio.go('editor.html')">① 部件组装</button><button onclick="studio.go('bind.html')">② 节点绑定</button><button onclick="studio.go('features.html')">功能配置</button><button onclick="studio.go('calibration.html')">表情／眨眼／坐姿</button><span>动作预览</span><button onclick="studio.go('export.html')">④ 检查导出</button><button id="refreshProject" title="读取已保存的部件、绑定与参数重新构建预览">重载已保存工程</button></nav>
+<header><div class="brand"><span class="brand-icon">✦</span><div><h1>动作工作台 <span>Motion Studio</span></h1><p>Coopanion · 本地桌宠预览</p></div></div><div class="pack"><label for="pack">当前工程</label><select id="pack" disabled></select><span class="live">本地运行</span></div></header>
+<main>
+<div class="workspace">
+<div class="stage-heading"><div><h2 id="identity">当前角色</h2><span id="version">正在读取动作包…</span></div><div class="buttons compact"><button id="left" title="镜像朝向">朝左</button><button id="right">朝右</button><button id="restart">居中重置</button></div></div>
+<div id="stage" class="checker"><div id="root"></div><div id="guides" hidden></div><span class="stage-label">LIVE PREVIEW</span><span class="hint">按住角色拖动 · 松开放下 · 鼠标移动跟随视线</span><div id="modeBadge">准备中</div></div>
+<section class="playback">
+<div class="play-row"><div class="buttons"><button id="pause" class="primary">暂停</button><button id="step" title="暂停并推进 1/60 秒">下一帧</button><button id="replay">重播当前</button><button id="demo">▶ 连续演示</button></div><label class="inline">速度 <select id="speed"><option value="0.25">0.25×</option><option value="0.5">0.5×</option><option value="1" selected>1×</option><option value="2">2×</option></select></label></div>
+<div class="timeline-row"><span id="currentWord">平静</span><input id="timeline" aria-label="动作时间" type="range" min="0" max="10" step="0.01" value="0"><output id="time">0.00s</output></div>
+<p class="subtle">拖动时间轴：从居中起点重建当前动作，检查指定时刻。直接点动作可检查连续切换。</p>
+</section>
+<div class="view-tools"><div class="buttons"><button id="bg">深 / 浅背景</button><button id="checker" class="on">透明棋盘</button><button id="guide">脚底参考线</button><button id="talk">说话</button><button id="capture">下载 PNG</button></div><label class="inline zoom">大小 <input id="zoom" aria-label="角色大小" type="range" min="0.7" max="2" step="0.1" value="1"><output id="zoomValue">100%</output></label></div>
+<div id="status" role="status">正在加载角色…</div>
+<details class="diagnostics"><summary>运行状态与事件 <span id="eventCount">0</span></summary><pre id="diagnostic"></pre></details>
+<section class="review"><div><h2>检查动作的开始、连接与恢复</h2><p>双向检查会采样当前动作、挥手、跳跃、坐下、眩晕和站起，生成一张联系表与状态报告。</p></div><div class="buttons"><button id="qa">生成双向检查</button><button id="qaImage" hidden>下载检查图片</button><button id="qaReport" hidden>下载检查报告</button></div></section>
+</div>
+<aside>
+<section><div class="section-title"><h2>动作与表情</h2><span id="wordCount"></span></div><input id="search" type="search" placeholder="搜索动作或表情…" aria-label="搜索动作或表情"><h3>身体动作</h3><div id="motions" class="buttons words"></div><h3>面部表情</h3><div id="expressions" class="buttons words"></div><p id="noResults" hidden>没有匹配的动作或表情</p></section>
+<section><div class="section-title"><h2>幅度微调</h2><select id="tuneGroup" aria-label="调节参数组"></select></div><div id="sliders"></div><div class="buttons"><button id="save" class="primary">保存参数</button><button id="defaults">恢复推荐值</button><button id="exportTune">导出参数</button></div><p id="saveStatus" role="status">参数保存在当前工程，导出形象包时自动合入。</p></section>
+<section class="notes"><h2>预览说明</h2><p id="importNotice" hidden></p><p>通用骨架按当前工程的节点和父子关系驱动。坐下、睡觉是通用姿势；正式坐姿建议制作专用素材。</p><p>朝左采用整体镜像。说话按钮演示嘴型，不含语音。</p><p>此处使用官方 kit 驱动。桌面宿主中的多屏、DPI、窗口交互仍需实际导入检查。</p><p>快捷键：空格 暂停 · → 下一帧 · R 重播（输入框中不触发）。</p></section>
+</aside>
+</main>
+<script type="module" src="./app.js"></script>
+</body></html>

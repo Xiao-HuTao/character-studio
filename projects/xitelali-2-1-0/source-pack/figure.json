@@ -1,0 +1,541 @@
+{
+  "manifest": 2,
+  "api": 2,
+  "id": "xitelali-legs",
+  "version": "2.1.0",
+  "name": {
+    "zh": "希特拉莉",
+    "en": "Xitelali"
+  },
+  "about": {
+    "zh": "希特拉莉 2.1.0：采用用户确认的日常眨眼起终点与睫毛缩小过渡，取消新增头部鼠标追踪；保留 2.0.0 的 19 表情、身体动作和坐姿渐变。"
+  },
+  "author": "用户提供角色素材；Codex 适配打包",
+  "license": "代码：AGPL-3.0（沿用 Coopanion kit 的接口与约定）；角色原图及 AI 辅助素材：权利归各自权利人，经用户授权用于此形象包。",
+  "credits": [
+    {
+      "role": "角色原图、拆件与装配",
+      "name": "用户提供的希特拉莉 0.0.7 拆件与装配"
+    },
+    {
+      "role": "宿主身体、物理与手势接口",
+      "name": "Pal-AI-Lab / Coopanion",
+      "url": "https://github.com/Pal-AI-Lab/Coopanion"
+    },
+    {
+      "role": "本版平铺部件绘制适配与打包",
+      "name": "Codex · 用户指导制作"
+    },
+    {
+      "role": "开心与闭眼表情差分",
+      "name": "OpenAI 内置 imagegen，参考用户角色及 whale/feat 绘制"
+    },
+    {
+      "role": "坐姿近腿与远腿绘制",
+      "name": "OpenAI 内置 imagegen，依据原角色及双靴参考生成"
+    },
+    {
+      "role": "本版坐姿装配与远腿素材调整",
+      "name": "用户完成；Codex 同步运行时及打包"
+    },
+    {
+      "role": "2.0.0 表情摆位与最终确认",
+      "name": "用户完成 19 表情校准并确认；Codex 按保存值接入与打包"
+    }
+  ],
+  "entry": "figure.js",
+  "export": "createRigBody",
+  "model": "model.json",
+  "thumb": "thumbnail.png",
+  "axes": [],
+  "presets": [],
+  "vocab": [
+    {
+      "id": "neutral",
+      "kind": "expression",
+      "names": {
+        "zh": [
+          "平静"
+        ]
+      },
+      "about": {
+        "zh": "平静"
+      },
+      "seconds": 4
+    },
+    {
+      "id": "happy",
+      "kind": "expression",
+      "names": {
+        "zh": [
+          "开心"
+        ]
+      },
+      "about": {
+        "zh": "开心"
+      },
+      "seconds": 4
+    },
+    {
+      "id": "wink",
+      "kind": "expression",
+      "names": {
+        "zh": [
+          "眨眼"
+        ]
+      },
+      "about": {
+        "zh": "眨眼"
+      },
+      "seconds": 4
+    },
+    {
+      "id": "love",
+      "kind": "expression",
+      "names": {
+        "zh": [
+          "喜欢"
+        ]
+      },
+      "about": {
+        "zh": "喜欢"
+      },
+      "seconds": 4
+    },
+    {
+      "id": "shy",
+      "kind": "expression",
+      "names": {
+        "zh": [
+          "害羞"
+        ]
+      },
+      "about": {
+        "zh": "害羞"
+      },
+      "seconds": 4
+    },
+    {
+      "id": "surprised",
+      "kind": "expression",
+      "names": {
+        "zh": [
+          "惊讶"
+        ]
+      },
+      "about": {
+        "zh": "惊讶"
+      },
+      "seconds": 4
+    },
+    {
+      "id": "angry",
+      "kind": "expression",
+      "names": {
+        "zh": [
+          "生气"
+        ]
+      },
+      "about": {
+        "zh": "生气"
+      },
+      "seconds": 4
+    },
+    {
+      "id": "sad",
+      "kind": "expression",
+      "names": {
+        "zh": [
+          "难过"
+        ]
+      },
+      "about": {
+        "zh": "难过"
+      },
+      "seconds": 4
+    },
+    {
+      "id": "sleepy",
+      "kind": "expression",
+      "names": {
+        "zh": [
+          "犯困"
+        ]
+      },
+      "about": {
+        "zh": "犯困"
+      },
+      "seconds": 4
+    },
+    {
+      "id": "thinking",
+      "kind": "expression",
+      "names": {
+        "zh": [
+          "思考"
+        ]
+      },
+      "about": {
+        "zh": "思考"
+      },
+      "seconds": 4
+    },
+    {
+      "id": "smug",
+      "kind": "expression",
+      "names": {
+        "zh": [
+          "得意"
+        ]
+      },
+      "about": {
+        "zh": "得意"
+      },
+      "seconds": 4
+    },
+    {
+      "id": "pout",
+      "kind": "expression",
+      "names": {
+        "zh": [
+          "嘟嘴"
+        ]
+      },
+      "about": {
+        "zh": "嘟嘴"
+      },
+      "seconds": 4
+    },
+    {
+      "id": "worried",
+      "kind": "expression",
+      "names": {
+        "zh": [
+          "担心"
+        ]
+      },
+      "about": {
+        "zh": "担心"
+      },
+      "seconds": 4
+    },
+    {
+      "id": "determined",
+      "kind": "expression",
+      "names": {
+        "zh": [
+          "认真"
+        ]
+      },
+      "about": {
+        "zh": "认真"
+      },
+      "seconds": 4
+    },
+    {
+      "id": "flustered",
+      "kind": "expression",
+      "names": {
+        "zh": [
+          "慌张"
+        ]
+      },
+      "about": {
+        "zh": "慌张"
+      },
+      "seconds": 4
+    },
+    {
+      "id": "scared",
+      "kind": "expression",
+      "names": {
+        "zh": [
+          "害怕"
+        ]
+      },
+      "about": {
+        "zh": "害怕"
+      },
+      "seconds": 4
+    },
+    {
+      "id": "excited",
+      "kind": "expression",
+      "names": {
+        "zh": [
+          "期待"
+        ]
+      },
+      "about": {
+        "zh": "期待"
+      },
+      "seconds": 4
+    },
+    {
+      "id": "cry",
+      "kind": "expression",
+      "names": {
+        "zh": [
+          "大哭"
+        ]
+      },
+      "about": {
+        "zh": "大哭"
+      },
+      "seconds": 4
+    },
+    {
+      "id": "confused",
+      "kind": "expression",
+      "names": {
+        "zh": [
+          "疑惑"
+        ]
+      },
+      "about": {
+        "zh": "疑惑"
+      },
+      "seconds": 4
+    },
+    {
+      "id": "stand",
+      "kind": "motion",
+      "names": {
+        "zh": [
+          "站起"
+        ]
+      },
+      "about": {
+        "zh": "站起"
+      },
+      "seconds": 4
+    },
+    {
+      "id": "jump",
+      "kind": "motion",
+      "names": {
+        "zh": [
+          "跳跃"
+        ]
+      },
+      "about": {
+        "zh": "跳跃"
+      },
+      "seconds": 4
+    },
+    {
+      "id": "hop",
+      "kind": "motion",
+      "names": {
+        "zh": [
+          "小跳"
+        ]
+      },
+      "about": {
+        "zh": "小跳"
+      },
+      "seconds": 4
+    },
+    {
+      "id": "look",
+      "kind": "motion",
+      "names": {
+        "zh": [
+          "张望"
+        ]
+      },
+      "about": {
+        "zh": "张望"
+      },
+      "seconds": 4
+    },
+    {
+      "id": "turn",
+      "kind": "motion",
+      "names": {
+        "zh": [
+          "转身"
+        ]
+      },
+      "about": {
+        "zh": "转身"
+      },
+      "seconds": 4
+    },
+    {
+      "id": "nod",
+      "kind": "motion",
+      "names": {
+        "zh": [
+          "点头"
+        ]
+      },
+      "about": {
+        "zh": "点头"
+      },
+      "seconds": 4
+    },
+    {
+      "id": "shake",
+      "kind": "motion",
+      "names": {
+        "zh": [
+          "摇头"
+        ]
+      },
+      "about": {
+        "zh": "摇头"
+      },
+      "seconds": 4
+    },
+    {
+      "id": "spin",
+      "kind": "motion",
+      "names": {
+        "zh": [
+          "转圈"
+        ]
+      },
+      "about": {
+        "zh": "转圈"
+      },
+      "seconds": 4
+    },
+    {
+      "id": "sit",
+      "kind": "motion",
+      "names": {
+        "zh": [
+          "坐下"
+        ]
+      },
+      "about": {
+        "zh": "坐下"
+      },
+      "seconds": 4
+    },
+    {
+      "id": "sleep",
+      "kind": "motion",
+      "names": {
+        "zh": [
+          "睡觉"
+        ]
+      },
+      "about": {
+        "zh": "睡觉"
+      },
+      "seconds": 4
+    },
+    {
+      "id": "dizzy",
+      "kind": "motion",
+      "names": {
+        "zh": [
+          "眩晕"
+        ]
+      },
+      "about": {
+        "zh": "眩晕"
+      },
+      "seconds": 4
+    },
+    {
+      "id": "walk",
+      "kind": "motion",
+      "names": {
+        "zh": [
+          "走路"
+        ]
+      },
+      "about": {
+        "zh": "走路"
+      },
+      "seconds": 4
+    },
+    {
+      "id": "run",
+      "kind": "motion",
+      "names": {
+        "zh": [
+          "跑步"
+        ]
+      },
+      "about": {
+        "zh": "跑步"
+      },
+      "seconds": 4
+    },
+    {
+      "id": "wave",
+      "kind": "motion",
+      "names": {
+        "zh": [
+          "挥手"
+        ]
+      },
+      "about": {
+        "zh": "挥手"
+      },
+      "seconds": 4
+    },
+    {
+      "id": "bow",
+      "kind": "motion",
+      "names": {
+        "zh": [
+          "鞠躬"
+        ]
+      },
+      "about": {
+        "zh": "鞠躬"
+      },
+      "seconds": 4
+    },
+    {
+      "id": "shiver",
+      "kind": "motion",
+      "names": {
+        "zh": [
+          "发抖"
+        ]
+      },
+      "about": {
+        "zh": "发抖"
+      },
+      "seconds": 4
+    },
+    {
+      "id": "flap",
+      "kind": "motion",
+      "names": {
+        "zh": [
+          "扑腾"
+        ]
+      },
+      "about": {
+        "zh": "扑腾"
+      },
+      "seconds": 4
+    },
+    {
+      "id": "dance",
+      "kind": "motion",
+      "names": {
+        "zh": [
+          "跳舞"
+        ]
+      },
+      "about": {
+        "zh": "跳舞"
+      },
+      "seconds": 4
+    }
+  ],
+  "sounds": {},
+  "can": {
+    "walk": true
+  },
+  "moves": [],
+  "needs": []
+}

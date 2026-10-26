@@ -1,0 +1,4 @@
+interface:
+  display_name: "角色工程台"
+  short_description: "使用本地角色工程台组装角色、校准表情与眨眼，并导出可导入形象包"
+  default_prompt: "使用 $character-studio 帮我编辑当前角色工程，保留已确认的摆位和署名，完成检查并按要求导出。"

@@ -1,0 +1,43 @@
+{
+  "name": "角色工程台",
+  "version": "2.0.0",
+  "author": {
+    "name": "Xiao-HuTao",
+    "github": "Xiao-HuTao",
+    "url": "https://github.com/Xiao-HuTao"
+  },
+  "authorScope": "本地角色工程台的制作、整合与维护",
+  "repository": "https://github.com/Xiao-HuTao/character-studio",
+  "repositoryNote": "工具公开源码仓库",
+  "license": "AGPL-3.0；保留所含上游组件的许可与署名",
+  "upstreams": [
+    {
+      "name": "Pal-AI-Lab / Coopanion",
+      "url": "https://github.com/Pal-AI-Lab/Coopanion",
+      "files": [
+        "vendor/kit/body.js",
+        "vendor/kit/rig.js"
+      ],
+      "licenseFile": "vendor/kit/LICENSE",
+      "modifiedVendoredJs": false
+    }
+  ],
+  "assistance": {
+    "name": "OpenAI Codex",
+    "scope": "辅助编写、整合与验证，不替代项目作者及上游作者署名"
+  },
+  "examples": {
+    "xitelali-2-1-0": {
+      "displayName": "老酸奶",
+      "authorship": "projects/xitelali-2-1-0/AUTHORSHIP.json"
+    },
+    "whale-project": {
+      "unchanged": true,
+      "author": "Pal-AI-Lab",
+      "source": "projects/whale-project/source-pack/figure.json"
+    }
+  },
+  "agentSkill": "skills/character-studio/SKILL.md",
+  "creditsDocument": "AUTHORS.md",
+  "releaseTag": "v2.0.0"
+}

@@ -1,0 +1,95 @@
+{
+  "version": "2.1.0",
+  "passed": true,
+  "errors": [],
+  "headTracking": false,
+  "expressionCount": 19,
+  "expressionMaxError": 6.355287432313019e-14,
+  "expressionLayerErrors": 0,
+  "expressionAlphaErrors": 0,
+  "expressionTextureDifferences": 0,
+  "transitionFrameCount": 20,
+  "transitionMaxError": 8.03887338846093e-14,
+  "blinkFrames": [
+    0,
+    0.1,
+    0.25,
+    0.5,
+    0.75,
+    0.9,
+    0.98,
+    1,
+    0
+  ],
+  "blinkFarOpaquePixels": [
+    671913,
+    654792,
+    636813,
+    525616,
+    176236,
+    30630,
+    1298,
+    0,
+    671913
+  ],
+  "blinkNearOpaquePixels": [
+    333500,
+    329065,
+    324252,
+    259277,
+    86234,
+    14969,
+    481,
+    0,
+    333500
+  ],
+  "blinkMaxEndpointError": 2.8421709430404014e-14,
+  "pauseStable": true,
+  "standaloneEntry": true,
+  "bodyCases": [
+    {
+      "word": "sit",
+      "equal": true
+    },
+    {
+      "word": "sleep",
+      "equal": true
+    },
+    {
+      "word": "dizzy",
+      "equal": true
+    },
+    {
+      "word": "stand",
+      "equal": true
+    },
+    {
+      "word": "walk",
+      "equal": true
+    },
+    {
+      "word": "run",
+      "equal": true
+    },
+    {
+      "word": "jump",
+      "equal": true
+    },
+    {
+      "word": "wave",
+      "equal": true
+    },
+    {
+      "word": "bow",
+      "equal": true
+    }
+  ],
+  "testPage": "http://127.0.0.1:8774/motion-preview/qa/v21-blink-release/",
+  "baseBodyPrefixIdentical": true,
+  "modelUnchangedExceptVersionAndBlinkCalibration": true,
+  "allArtworkBytesUnchanged": true,
+  "userConfirmationReceived": true,
+  "approval": "还是取消头部追踪，眼睛位置正确，打包吧",
+  "runtimeSha256": "4f6448e53a1b917f530a6d2f6971bff6df01123fc1ce4c9a784eb987e588ed4b",
+  "modelSha256": "4d869cd5d5eb911a15674a8da4293e122fe17b832842f5fc00d6b6e674d81905"
+}

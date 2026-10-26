@@ -1,0 +1,119 @@
+{
+  "app": "character-studio",
+  "version": "2.0.0",
+  "passed": true,
+  "author": "Xiao-HuTao",
+  "repository": "https://github.com/Xiao-HuTao/character-studio",
+  "pythonTestsPassed": 27,
+  "characterRuntimeAndModelBytesUnchanged": true,
+  "whaleProjectUnchanged": true,
+  "browserRegression": {
+    "passed": true,
+    "errors": [],
+    "expressionCount": 19,
+    "expressionMaxError": 6.355287432313019e-14,
+    "layerErrors": 0,
+    "alphaErrors": 0,
+    "textureDifferences": 0,
+    "transitionFrameCount": 20,
+    "transitionMaxError": 8.03887338846093e-14,
+    "headTracking": false,
+    "pauseStable": true,
+    "standaloneEntry": true,
+    "blinkProgress": [
+      0,
+      0.1,
+      0.25,
+      0.5,
+      0.75,
+      0.9,
+      0.98,
+      1,
+      0
+    ],
+    "blinkNearOpaquePixels": [
+      333500,
+      329065,
+      324252,
+      259277,
+      86234,
+      14969,
+      481,
+      0,
+      333500
+    ],
+    "blinkFarOpaquePixels": [
+      671913,
+      654792,
+      636813,
+      525616,
+      176236,
+      30630,
+      1298,
+      0,
+      671913
+    ],
+    "blinkMaxEndpointError": 2.8421709430404014e-14,
+    "bodyCases": [
+      {
+        "word": "sit",
+        "equal": true
+      },
+      {
+        "word": "sleep",
+        "equal": true
+      },
+      {
+        "word": "dizzy",
+        "equal": true
+      },
+      {
+        "word": "stand",
+        "equal": true
+      },
+      {
+        "word": "walk",
+        "equal": true
+      },
+      {
+        "word": "run",
+        "equal": true
+      },
+      {
+        "word": "jump",
+        "equal": true
+      },
+      {
+        "word": "wave",
+        "equal": true
+      },
+      {
+        "word": "bow",
+        "equal": true
+      }
+    ]
+  },
+  "genericUiCases": {
+    "allPartNamesChanged": true,
+    "canvas": [
+      2074,
+      3034
+    ],
+    "featuresSaved": true,
+    "nearBlinkEndXSaved": 1004.625,
+    "nearStartAndFarEndpointsUnchanged": true,
+    "actualCryRenderLoadedWithoutErrors": true
+  },
+  "skillFormatCheck": {
+    "passed": true,
+    "name": "character-studio",
+    "localReferencesChecked": [
+      "references/project-contract.md"
+    ],
+    "uiMetadataChecked": true,
+    "unfinishedPlaceholders": false,
+    "officialValidator": "unavailable: PyYAML is not installed",
+    "method": "Strict validation of the two-scalar frontmatter subset, generated UI metadata and reference files; no full YAML parser claimed"
+  },
+  "sourceDistributionSha256": "34b1c9a3b49f839b95ccaf86459ecf28258c74aec32db56be325b676e692aa40"
+}

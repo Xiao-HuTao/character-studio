@@ -1,0 +1,16 @@
+{
+  "version": "2.1.0",
+  "baselineVersion": "2.0.0",
+  "sourceProject": "xitelali-2-1-0-blink-tracking",
+  "sourceAssemblySha256": "6707f9ffa92175a213e880261bebbc5f2a5238d04ee0bd44805dfe7b2ae913ed",
+  "runtimeSha256": "4f6448e53a1b917f530a6d2f6971bff6df01123fc1ce4c9a784eb987e588ed4b",
+  "modelSha256": "4d869cd5d5eb911a15674a8da4293e122fe17b832842f5fc00d6b6e674d81905",
+  "baseBodyPrefixIdentical": true,
+  "headTracking": false,
+  "expressionCount": 19,
+  "approval": {
+    "received": true,
+    "request": "还是取消头部追踪，眼睛位置正确，打包吧",
+    "date": "2026-10-25"
+  }
+}

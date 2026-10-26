@@ -1,0 +1,136 @@
+{
+  "nodes": {
+    "body": {
+      "pivot": [
+        650,
+        1505
+      ],
+      "parent": null
+    },
+    "torso": {
+      "pivot": [
+        620,
+        1000
+      ],
+      "parent": "body"
+    },
+    "head": {
+      "pivot": [
+        626,
+        765
+      ],
+      "parent": "torso"
+    },
+    "hair": {
+      "pivot": [
+        600,
+        260
+      ],
+      "parent": "head"
+    },
+    "eyes": {
+      "pivot": [
+        676,
+        576
+      ],
+      "parent": "head"
+    },
+    "iris": {
+      "pivot": [
+        676,
+        576
+      ],
+      "parent": "eyes"
+    },
+    "brow": {
+      "pivot": [
+        680,
+        496
+      ],
+      "parent": "head"
+    },
+    "mouth": {
+      "pivot": [
+        689,
+        670
+      ],
+      "parent": "head"
+    },
+    "armNear": {
+      "pivot": [
+        500,
+        760
+      ],
+      "parent": "torso"
+    },
+    "armFar": {
+      "pivot": [
+        800,
+        770
+      ],
+      "parent": "torso"
+    },
+    "legNear": {
+      "pivot": [
+        572,
+        1120
+      ],
+      "parent": "body"
+    },
+    "legFar": {
+      "pivot": [
+        742,
+        1145
+      ],
+      "parent": "body"
+    }
+  },
+  "assign": {
+    "part_11": "hair",
+    "part_14": "torso",
+    "part_16": "legFar",
+    "part_17": "legNear",
+    "face": "head",
+    "part_30": "brow",
+    "part_29": "brow",
+    "part_6": "hair",
+    "part_10": "hair",
+    "part_21": "hair",
+    "part_22": "hair",
+    "part_8": "hair",
+    "part_9": "hair",
+    "part_7": "head",
+    "part_1": "hair",
+    "part_13": "armFar",
+    "part_20": "torso",
+    "part_12": "armNear",
+    "part_2": "mouth",
+    "part_24": "eyes",
+    "part_23": "eyes",
+    "part_25": "iris",
+    "part_26": "iris",
+    "part_27": "eyes",
+    "part_28": "eyes",
+    "happy_eyeL": "head",
+    "happy_eyeR": "head",
+    "happy_mouth": "head",
+    "sleep_eyeL": "head",
+    "sleep_eyeR": "head",
+    "sleep_mouth": "head",
+    "love_eyeL": "head",
+    "love_eyeR": "head",
+    "love_mouth": "head",
+    "surprised_mouth": "head",
+    "drag_eyeL": "head",
+    "drag_eyeR": "head",
+    "drag_mouth": "head",
+    "dizzy_eyeL": "head",
+    "dizzy_eyeR": "head",
+    "dizzy_mouth": "head",
+    "cry_eyeL": "head",
+    "cry_eyeR": "head",
+    "cry_mouth": "head",
+    "seated-leg-near": "body",
+    "seated_leg_far1": "body"
+  }
+}

@@ -1,0 +1,846 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8"><link rel="icon" href="data:,">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>角色工程台 · 部件组装</title><script src="/web/common.js"></script>
+<style>
+  :root{--bg:#0f1115;--panel:#171a21;--panel2:#1e222b;--line:#2b313d;--text:#e8ecf3;--muted:#93a0b4;--accent:#7c9cff;--warn:#f59e0b}
+  *{box-sizing:border-box}
+  html,body{height:100%}
+  body{margin:0;background:var(--bg);color:var(--text);font:13px/1.5 "Segoe UI","Microsoft YaHei",system-ui,sans-serif;overflow:hidden}
+  header{height:52px;display:flex;align-items:center;gap:8px;padding:0 12px;background:var(--panel);border-bottom:1px solid var(--line);flex-wrap:nowrap;overflow-x:auto}
+  header .title{font-weight:700;font-size:14px;white-space:nowrap;margin-right:6px}
+  header .title small{color:var(--muted);font-weight:400;margin-left:6px}
+  button{background:var(--panel2);color:var(--text);border:1px solid var(--line);border-radius:7px;padding:6px 10px;cursor:pointer;font:inherit;white-space:nowrap}
+  button:hover{border-color:#3d4a63}
+  button.primary{background:#2d5bd7;border-color:#3b6ff0}
+  button.on{background:#243356;border-color:#3b6ff0}
+  .spacer{flex:1}
+  main{display:flex;height:calc(100% - 52px)}
+  aside{width:250px;flex:0 0 250px;background:var(--panel);border-right:1px solid var(--line);display:flex;flex-direction:column;min-height:0}
+  aside.right{border-right:0;border-left:1px solid var(--line);width:272px;flex:0 0 272px}
+  .paneHead{padding:9px 12px;border-bottom:1px solid var(--line);color:var(--muted);font-size:12px;display:flex;justify-content:space-between;align-items:center;gap:6px}
+  #list{overflow:auto;flex:1;padding:6px}
+  .row{display:flex;align-items:center;gap:6px;padding:4px 6px;border-radius:7px;cursor:pointer;border:1px solid transparent}
+  .row:hover{background:var(--panel2)}
+  .row.sel{background:#243356;border-color:#3b6ff0}
+  .row .dot{width:10px;height:10px;border-radius:50%;background:#3a4150;flex:0 0 10px}
+  .row .dot.ok{background:#34d399}
+  .row .dot.miss{background:#f59e0b}
+  .row .nm{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:12px}
+  .row .rot{color:#7c9cff;font-size:10.5px;min-width:32px;text-align:right}
+  .row .lock{font-size:11px;color:var(--warn)}
+  .row.hid{opacity:.45}
+  #stageWrap{flex:1;position:relative;overflow:auto;background:#0b0d11;
+    background-image:linear-gradient(45deg,#12151b 25%,transparent 25%),linear-gradient(-45deg,#12151b 25%,transparent 25%),linear-gradient(45deg,transparent 75%,#12151b 75%),linear-gradient(-45deg,transparent 75%,#12151b 75%);
+    background-size:24px 24px;background-position:0 0,0 12px,12px -12px,-12px 0}
+  #stageWrap.white{background:#fff;background-image:none}
+  #stageBox{position:relative;margin:16px auto}
+  #stage{position:absolute;left:0;top:0;width:1037px;height:1517px;transform-origin:top left}
+  #ref{position:absolute;left:0;top:0;width:1037px;height:1517px;pointer-events:none;display:none;opacity:.5;z-index:1}
+  .partWrap{position:absolute;transform-origin:center center;touch-action:none;user-select:none;cursor:move}
+  .partWrap.sel{outline:1px solid var(--accent)}
+  .partWrap.pinned{cursor:default;outline:1px dashed var(--warn)}
+  .partWrap img.part{width:100%;height:100%;display:block;pointer-events:none;-webkit-user-drag:none}
+  .partWrap .ph{position:absolute;inset:0;border:1px dashed #64748b;border-radius:3px;color:#94a3b8;font-size:10px;padding:2px 3px;background:rgba(148,163,184,.06);overflow:hidden;white-space:nowrap;pointer-events:none}
+  .partWrap .pinBadge{position:absolute;left:-8px;top:-18px;font-size:11px;color:#000;background:var(--warn);border-radius:3px;padding:0 3px;display:none}
+  .partWrap.pinned .pinBadge{display:block}
+  .handle{position:absolute;width:11px;height:11px;background:#fff;border:2px solid var(--accent);border-radius:3px;display:none;z-index:5;touch-action:none}
+  .handle.nw{left:-6px;top:-6px;cursor:nwse-resize}
+  .handle.ne{right:-6px;top:-6px;cursor:nesw-resize}
+  .handle.sw{left:-6px;bottom:-6px;cursor:nesw-resize}
+  .handle.se{right:-6px;bottom:-6px;cursor:nwse-resize}
+  .handle.n{left:50%;top:-6px;transform:translateX(-50%);cursor:ns-resize}
+  .handle.s{left:50%;bottom:-6px;transform:translateX(-50%);cursor:ns-resize}
+  .handle.e{right:-6px;top:50%;transform:translateY(-50%);cursor:ew-resize}
+  .handle.w{left:-6px;top:50%;transform:translateY(-50%);cursor:ew-resize}
+  .rotHandle{position:absolute;left:50%;top:-38px;width:20px;height:20px;margin-left:-10px;border-radius:50%;
+    background:#fff;border:2px solid var(--accent);color:#2d5bd7;font-size:13px;line-height:16px;text-align:center;
+    cursor:grab;display:none;z-index:6;touch-action:none}
+  #hint{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);color:#4a5568;font-size:13px;pointer-events:none;text-align:center}
+  .field{display:flex;align-items:center;gap:6px;margin:6px 0}
+  .field label{width:30px;color:var(--muted)}
+  .field input[type=number]{flex:1;background:#0e1117;border:1px solid var(--line);color:var(--text);border-radius:6px;padding:4px 6px;font:inherit;width:100%}
+  .field input[type=text]{flex:1;background:#0e1117;border:1px solid var(--line);color:var(--text);border-radius:6px;padding:5px 7px;font:inherit;width:100%}
+  .rotbtns{display:grid;grid-template-columns:repeat(5,1fr);gap:4px;margin-top:4px}
+  .rotbtns button{padding:4px 0;font-size:11px}
+  .grid2{display:grid;grid-template-columns:1fr 1fr;gap:6px}
+  .hintbox{color:var(--muted);font-size:11.5px;line-height:1.7;padding:8px 12px}
+  .hintbox kbd{background:#0e1117;border:1px solid var(--line);border-bottom-width:2px;border-radius:4px;padding:0 4px;font-size:10.5px}
+  #status{height:28px;display:flex;align-items:center;gap:14px;padding:0 12px;color:var(--muted);background:var(--panel);border-top:1px solid var(--line);font-size:12px}
+  #toast{position:fixed;left:50%;bottom:44px;transform:translateX(-50%);background:#1f2a44;border:1px solid #3b6ff0;padding:8px 14px;border-radius:8px;opacity:0;transition:.2s;pointer-events:none;white-space:nowrap;font-size:12.5px;z-index:99999}
+  #toast.show{opacity:1}
+  .sec{border-top:1px solid var(--line);margin-top:8px;padding-top:8px}
+  .sec:first-child{border-top:0;margin-top:0;padding-top:0}
+  .k{color:var(--muted);font-size:11px}
+  .warn{color:#ffb86b}
+  #fileInput{display:none}
+  /* modal */
+  #modal,#delModal,#renameModal{position:fixed;inset:0;background:rgba(5,8,14,.72);display:none;align-items:center;justify-content:center;z-index:100000}
+  #modal.show,#delModal.show,#renameModal.show{display:flex}
+  .modalBox{width:380px;background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:16px;box-shadow:0 20px 60px rgba(0,0,0,.5)}
+  .modalBox h3{margin:0 0 12px;font-size:15px}
+  .modalBox .field label{width:42px}
+  .modalBtns{display:flex;justify-content:flex-end;gap:8px;margin-top:14px}
+  #newPreview{height:120px;display:flex;align-items:center;justify-content:center;color:var(--muted);font-size:11.5px;border:1px dashed var(--line);border-radius:8px;margin-top:8px;overflow:hidden}
+  #newPreview img{max-height:110px;max-width:100%}
+@media(max-width:900px){body{overflow:auto}main{display:grid;grid-template-columns:1fr 1fr;height:auto}#stageWrap{grid-column:1/-1;grid-row:1;height:520px}main>aside{width:auto;flex-basis:auto;max-height:550px;min-height:350px}main>aside.right{width:auto;flex-basis:auto}#status{position:sticky;bottom:0}header{position:sticky;top:0;z-index:10000}}
+</style>
+</head>
+<body>
+<header>
+  <div class="title">组装台 · 部件摆放 <small>项目：当前目录</small></div>
+  <button id="btnSave" class="primary">保存</button>
+  <button id="btnAdd">＋ 新增部件</button><button onclick="studioNavigate('bind.html')">② 节点绑定</button><button onclick="studioNavigate('features.html')">功能配置</button><button onclick="studioNavigate('calibration.html')">表情／眨眼／坐姿</button><button onclick="studioNavigate('motion/')">③ 动作预览</button><button onclick="studioNavigate('export.html')">④ 检查与导出</button><button onclick="studioNavigate('/')">工程首页</button>
+  <button id="btnDownload">下载 JSON</button>
+  <button id="btnReloadParts">重新加载部件</button>
+  <button id="btnReset">重置到清单</button>
+  <span class="spacer"></span>
+  <button id="btnRef">参考图</button>
+  <button id="btnBg">白底</button>
+  <button id="btnUndo">撤销</button>
+  <button id="btnFit">适应窗口</button>
+  <button id="btn100">1:1</button>
+</header>
+
+<main>
+  <aside>
+    <div class="paneHead"><span>部件（从下到上）</span><span id="count"></span></div>
+    <div id="list"></div>
+    <div class="hintbox">
+      <div class="k">拖动移动；<b>四角 = 等比/自由，四边 = 单方向拉伸</b>。</div>
+      <div class="k" style="margin-top:4px">选中后拖顶部圆点旋转；<kbd>,</kbd> / <kbd>.</kbd> 转 1°（Shift 15°）。</div>
+      <div class="k" style="margin-top:4px"><kbd>L</kbd> 固定/解除；固定的部件不能拖动。</div>
+    </div>
+  </aside>
+
+  <div id="stageWrap">
+    <div id="stageBox">
+      <div id="stage">
+        <img id="ref" src="reference.png" alt="">
+        <div id="hint">加载中…</div>
+      </div>
+    </div>
+  </div>
+
+  <aside class="right">
+    <div class="paneHead"><span>选中部件</span><span id="selName" class="k">—</span></div>
+    <div style="padding:10px 12px">
+      <div id="inspector" style="display:none">
+        <div class="sec">
+          <div class="field"><label>X</label><input id="inX" type="number" step="1"></div>
+          <div class="field"><label>Y</label><input id="inY" type="number" step="1"></div>
+          <div class="field"><label>W</label><input id="inW" type="number" step="1"></div>
+          <div class="field"><label>H</label><input id="inH" type="number" step="1"></div>
+          <div class="field"><label>旋转</label><input id="inR" type="number" step="1"><span class="k">°</span></div>
+          <div class="rotbtns">
+            <button data-rot="-15">-15</button>
+            <button data-rot="-5">-5</button>
+            <button data-rot="0">0</button>
+            <button data-rot="5">+5</button>
+            <button data-rot="15">+15</button>
+          </div>
+          <label class="k" style="display:flex;gap:6px;align-items:center;margin-top:6px">
+            <input id="lockAspect" type="checkbox"> 锁定宽高比（默认开启）
+          </label>
+        </div>
+        <div class="sec grid2">
+          <button id="btnPin">固定</button>
+          <button id="btnHide">隐藏 / 显示</button>
+          <button id="btnUp">上移一层</button>
+          <button id="btnDown">下移一层</button>
+          <button id="btnTop">置顶</button>
+          <button id="btnBottom">置底</button>
+          <button id="btnCenterX">水平居中</button>
+          <button id="btnDelete" style="display:none">删除部件</button>
+        </div>
+        <div class="sec">
+          <button id="btnRename" style="width:100%;margin-bottom:8px">重命名部件 / PNG</button><button id="btnReplace" style="width:100%">替换图片（上传 PNG）</button>
+          <div class="k" style="margin-top:6px">状态：<span id="partState">—</span></div>
+          <div class="k" style="margin-top:2px">文件：<span id="fileInfo">—</span></div>
+        </div>
+      </div>
+      <div id="emptyHint" class="hintbox">点左侧列表或画面里的部件来选中。</div>
+    </div>
+    <div class="paneHead" style="border-top:1px solid var(--line)">操作提示</div>
+    <div class="hintbox">
+      <kbd>方向键</kbd> 移动 · <kbd>Shift</kbd>+方向键 10px<br>
+      <kbd>,</kbd> / <kbd>.</kbd> 旋转 1°（Shift 15°）<br>
+      <kbd>L</kbd> 固定/解除 · <kbd>[</kbd> / <kbd>]</kbd> 上下层<br>
+      <kbd>H</kbd> 隐藏 · <kbd>Ctrl</kbd>+<kbd>Z</kbd> 撤销<br>
+      <kbd>Esc</kbd> 取消选中 · <kbd>Ctrl</kbd>+滚轮 缩放画面<br><br>
+      <span class="warn">已有部件的 PNG 替换后每 4 秒自动刷新；新部件请点“新增部件”，也可以拖 PNG 到画布替换选中部件。</span>
+    </div>
+  </aside>
+</main>
+
+<div id="status"><span id="stPos">—</span><span id="stSel">—</span><span id="stScale"></span><span id="stParts">—</span><span id="stSave">—</span></div>
+<div id="toast"></div>
+<input id="fileInput" type="file" accept="image/png">
+
+<div id="modal">
+  <div class="modalBox">
+    <h3>新增部件</h3>
+    <div class="field"><label>名称</label><input id="newName" type="text" placeholder="例如 wing_left、tail"></div>
+    <div class="field"><label>图片</label><input id="newFile" type="file" accept="image/png"></div>
+    <div id="newPreview">选择 PNG 后这里预览</div>
+    <div class="k" style="margin-top:6px">名称只能用字母、数字、下划线、短横线；会自动按图片比例放到画布中央。</div>
+    <div class="modalBtns">
+      <button id="newCancel">取消</button>
+      <button id="newOk" class="primary">添加</button>
+    </div>
+  </div>
+</div>
+
+<div id="delModal">
+  <div class="modalBox">
+    <h3>删除部件</h3>
+    <div style="margin:6px 0 10px">确定删除 <b id="delName">—</b> 吗？</div>
+    <label class="k" style="display:flex;gap:6px;align-items:center">
+      <input id="delFile" type="checkbox"> 同时移入 PNG 回收目录（可撤销）
+    </label>
+    <div class="k" style="margin-top:8px">不勾选则只从画布和列表移除，文件保留；「重置到清单」可以恢复清单里的部件。</div>
+    <div class="modalBtns">
+      <button id="delCancel">取消</button>
+      <button id="delOk" class="primary" style="background:#b42318;border-color:#d92d20">删除</button>
+    </div>
+  </div>
+</div>
+
+<div id="renameModal" role="dialog" aria-label="重命名部件">
+  <div class="modalBox"><h3>重命名部件</h3><div class="field"><label for="renameName">名称</label><input id="renameName" type="text" maxlength="80"></div><p class="k">支持中文、字母、数字、下划线和短横线。会同步修改 PNG 文件名、装配清单和绑定引用。</p><p id="renameError" class="warn" role="status"></p><div class="modalBtns"><button id="renameCancel">取消</button><button id="renameOk" class="primary">保存名称</button></div></div>
+</div>
+<script>
+(() => {
+  let W = 1037, H = 1517;
+  const stage = document.getElementById('stage');
+  const stageBox = document.getElementById('stageBox');
+  const stageWrap = document.getElementById('stageWrap');
+  const listEl = document.getElementById('list');
+  const toastEl = document.getElementById('toast');
+  const $ = id => document.getElementById(id);
+
+  let parts = [];
+  let sel = -1;
+  let scale = 1;
+  let fitMode = 'both';
+  let lockAspect = true;
+  let autoSave = true;
+  let saveTimer = null;
+  let dirty = false;
+  let drag = null;
+  let removed = new Set();
+  const history = [];
+
+  const clamp = (v, a, b) => Math.max(a, Math.min(b, v));
+  const round = v => Math.round(v);
+  const normAngle = a => { a = ((a + 180) % 360 + 360) % 360 - 180; return a; };
+
+  function toast(msg, ms = 2200) {
+    toastEl.textContent = msg;
+    toastEl.classList.add('show');
+    clearTimeout(toast._t);
+    toast._t = setTimeout(() => toastEl.classList.remove('show'), ms);
+  }
+
+  function snap() {
+    history.push(JSON.stringify({parts:parts.map(p=>({id:p.id,custom:p.custom,z:p.z,x:p.x,y:p.y,w:p.w,h:p.h,rot:p.rot,hidden:p.hidden,pinned:p.pinned,mx:p.mx,my:p.my,mw:p.mw,mh:p.mh})),removed:[...removed],selected:parts[sel]?.id}));
+    if(history.length>80)history.shift();
+    scheduleSave();
+  }
+  async function undo() {
+    if(!history.length)return toast('没有可撤销的步骤');
+    const previous=JSON.parse(history.pop()),cache=new Map(parts.map(p=>[p.id,p.img]));
+    const available=await(await fetch('/api/parts')).json();
+    for(const p of previous.parts)if(!available[p.id]?.exists){
+      const response=await fetch('/api/restore-part?id='+encodeURIComponent(p.id),{method:'POST'});
+      if(!response.ok){toast('无法恢复贴图：'+p.id);return;}
+    }
+    parts=previous.parts.map(p=>({...p,img:cache.get(p.id)||null,missing:!cache.get(p.id),mtime:0})).sort((a,b)=>a.z-b.z);
+    removed=new Set(previous.removed);sel=parts.findIndex(p=>p.id===previous.selected);
+    buildList();render();syncInspector();await refreshParts(true);scheduleSave();toast('已撤销');
+  }
+
+  async function load() {
+    const man = await (await fetch('parts-manifest.json?t=' + Date.now())).json();
+    [W,H] = man.canvas || [1037,1517]; $('stage').style.width=W+'px'; $('stage').style.height=H+'px'; $('ref').style.width=W+'px'; $('ref').style.height=H+'px';
+    parts = man.parts.map(p => ({
+      id: p.id, custom: false, z: p.z,
+      x: p.box[0], y: p.box[1], w: p.box[2], h: p.box[3], rot: 0,
+      mx: p.box[0], my: p.box[1], mw: p.box[2], mh: p.box[3],
+      hidden: false, pinned: false, img: null, missing: true, mtime: 0
+    }));
+    try {
+      const asm = await (await fetch('assembly-v4.json?t=' + Date.now())).json();
+      if (asm && Array.isArray(asm.parts)) {
+        asm.parts.forEach(s => {
+          let p = parts.find(q => q.id === s.id);
+          if (!p) {
+            p = { id: s.id, custom: true, z: s.z || (parts.length + 1), x: s.x, y: s.y, w: s.w, h: s.h,
+                  rot: 0, mx: s.x, my: s.y, mw: s.w, mh: s.h, hidden: false, pinned: false,
+                  img: null, missing: true, mtime: 0 };
+            parts.push(p);
+          }
+          p.x = s.x; p.y = s.y; p.w = s.w; p.h = s.h;
+          p.z = Number.isFinite(s.z) ? s.z : p.z; p.rot = +(s.rot || 0); p.hidden = !!s.hidden; p.pinned = !!s.pinned;
+        });
+        toast('已恢复上次保存的摆放');
+      }
+      if (asm && Array.isArray(asm.removed)) removed = new Set(asm.removed);
+    } catch (e) {}
+    parts = parts.filter(p => !removed.has(p.id));
+    parts.sort((a, b) => a.z - b.z);
+    const selectedId=new URLSearchParams(location.search).get('part');sel=parts.findIndex(p=>p.id===selectedId);
+    buildList(); render(); syncInspector(); applyScale();
+    $('hint').style.display = 'none';
+    await refreshParts(true);
+    setInterval(() => refreshParts(false), 4000);
+  }
+
+  async function refreshParts(force) {
+    let info;
+    try { info = await (await fetch('/api/parts?t=' + Date.now())).json(); } catch (e) { return; }
+    let missing = 0;
+    parts.forEach(p => {
+      const it = info[p.id] || { exists: false, mtime: 0 };
+      if (it.exists) {
+        if (it.mtime !== p.mtime || force) { p.mtime = it.mtime; loadImage(p); }
+      } else {
+        if (!p.missing) { p.missing = true; p.img = null; render(); }
+        missing++;
+      }
+    });
+    $('stParts').textContent = `部件 ${parts.length - missing}/${parts.length} 已加载`;
+  }
+
+  function loadImage(p) {
+    const im = new Image();
+    im.onload = () => { p.img = im; p.missing = false; buildList(); render(); if(parts[sel]===p)syncInspector(); };
+    im.onerror = () => { p.img = null; p.missing = true; buildList(); render(); if(parts[sel]===p)syncInspector(); };
+    im.src = `parts/${p.id}.png?t=${p.mtime || Date.now()}`;
+  }
+
+  function buildList() {
+    listEl.innerHTML = '';
+    parts.forEach((p, i) => {
+      const row = document.createElement('div');
+      row.className = 'row' + (i === sel ? ' sel' : '') + (p.hidden ? ' hid' : '');
+      const rotTxt = p.rot ? (Math.round(p.rot) + '°') : '';
+      row.innerHTML = `<span class="dot ${p.missing ? 'miss' : 'ok'}"></span>`
+        + `<span class="nm">${p.id}${p.custom ? ' *' : ''}</span>`
+        + `<span class="rot">${rotTxt}</span>`
+        + (p.pinned ? '<span class="lock">🔒</span>' : '')
+        + `<span class="k">${i + 1}</span>`;
+      row.onclick = () => { sel = i; buildList(); render(); syncInspector(); };
+      listEl.appendChild(row);
+    });
+    $('count').textContent = parts.length + ' 件';
+  }
+
+  const wraps = new Map();
+  function ensureWrap(p) {
+    if (wraps.has(p.id)) return wraps.get(p.id);
+    const wrap = document.createElement('div');
+    wrap.className = 'partWrap';
+
+    const img = document.createElement('img');
+    img.className = 'part'; img.draggable = false; img.alt = '';
+    wrap.appendChild(img);
+
+    const ph = document.createElement('div');
+    ph.className = 'ph';
+    wrap.appendChild(ph);
+
+    const badge = document.createElement('div');
+    badge.className = 'pinBadge'; badge.textContent = '🔒';
+    wrap.appendChild(badge);
+
+    ['nw', 'n', 'ne', 'e', 'se', 's', 'sw', 'w'].forEach(k => {
+      const h = document.createElement('div');
+      h.className = 'handle ' + k;
+      h.dataset.k = k;
+      h.addEventListener('pointerdown', onHandleDown);
+      wrap.appendChild(h);
+    });
+
+    const rh = document.createElement('div');
+    rh.className = 'rotHandle';
+    rh.textContent = '↻';
+    rh.addEventListener('pointerdown', onRotateDown);
+    wrap.appendChild(rh);
+
+    wrap.addEventListener('pointerdown', onPartDown);
+    stage.appendChild(wrap);
+    const o = { wrap, img, ph, rh };
+    wraps.set(p.id, o);
+    return o;
+  }
+
+  function render() {
+    const alive = new Set(parts.map(p => p.id));
+    for (const [id, o] of wraps) {
+      if (!alive.has(id)) { o.wrap.remove(); wraps.delete(id); }
+    }
+    parts.forEach((p, i) => {
+      const o = ensureWrap(p);
+      o.wrap.dataset.i = i;
+      o.wrap.dataset.id = p.id;
+      o.wrap.style.left = p.x + 'px';
+      o.wrap.style.top = p.y + 'px';
+      o.wrap.style.width = p.w + 'px';
+      o.wrap.style.height = p.h + 'px';
+      o.wrap.style.transform = `rotate(${p.rot}deg)`;
+      o.wrap.style.transformOrigin = 'center center';
+      o.wrap.style.display = p.hidden ? 'none' : 'block';
+      o.wrap.style.zIndex = 10 + i;
+      o.wrap.classList.toggle('sel', i === sel);
+      o.wrap.classList.toggle('pinned', !!p.pinned);
+      const showHandles = (i === sel && !p.hidden && !p.pinned);
+      o.wrap.querySelectorAll('.handle').forEach(h => { h.style.display = showHandles ? 'block' : 'none'; });
+      o.rh.style.display = showHandles ? 'block' : 'none';
+      if (p.img) {
+        o.img.src = p.img.src;
+        o.img.style.display = 'block';
+        o.ph.style.display = 'none';
+      } else {
+        o.img.removeAttribute('src');
+        o.img.style.display = 'none';
+        o.ph.style.display = 'block';
+        o.ph.textContent = p.id + (p.custom ? '（新）' : '（缺）');
+      }
+    });
+    $('stSel').textContent = sel >= 0
+      ? '选中 ' + parts[sel].id + (parts[sel].pinned ? ' 🔒' : '') + (parts[sel].rot ? '  ' + Math.round(parts[sel].rot) + '°' : '')
+      : '未选中';
+  }
+
+  function pt(e) {
+    const r = stage.getBoundingClientRect();
+    return { x: (e.clientX - r.left) / scale, y: (e.clientY - r.top) / scale };
+  }
+
+  function onPartDown(e) {
+    if (e.button !== 0) return;
+    const i = +e.currentTarget.dataset.i;
+    sel = i; buildList(); render(); syncInspector();
+    const p = parts[i];
+    if (p.pinned) { toast('已固定：按 L 或点“解除固定”后才能移动'); return; }
+    const q = pt(e);
+    snap();
+    drag = { mode: 'move', i, sx: q.x, sy: q.y, ox: p.x, oy: p.y };
+    e.preventDefault();
+  }
+
+  function onHandleDown(e) {
+    if (e.button !== 0 || sel < 0) return;
+    const p = parts[sel];
+    if (p.pinned) return;
+    e.stopPropagation();
+    const q = pt(e);
+    snap();
+    drag = {
+      mode: 'resize', i: sel, corner: e.currentTarget.dataset.k,
+      sx: q.x, sy: q.y, ox: p.x, oy: p.y, ow: p.w, oh: p.h,
+      ratio: p.w / p.h, rot: p.rot * Math.PI / 180,
+      cx: p.x + p.w / 2, cy: p.y + p.h / 2
+    };
+    e.preventDefault();
+  }
+
+  function onRotateDown(e) {
+    if (e.button !== 0 || sel < 0) return;
+    const p = parts[sel];
+    if (p.pinned) return;
+    e.stopPropagation();
+    const q = pt(e);
+    const cx = p.x + p.w / 2, cy = p.y + p.h / 2;
+    const a0 = Math.atan2(q.y - cy, q.x - cx) * 180 / Math.PI + 90;
+    snap();
+    drag = { mode: 'rotate', i: sel, cx, cy, start: a0 - p.rot };
+    e.preventDefault();
+  }
+
+  window.addEventListener('pointermove', e => {
+    const q = pt(e);
+    $('stPos').textContent = `${Math.round(q.x)}, ${Math.round(q.y)}`;
+    if (!drag) return;
+    const p = parts[drag.i];
+
+    if (drag.mode === 'move') {
+      p.x = round(drag.ox + (q.x - drag.sx));
+      p.y = round(drag.oy + (q.y - drag.sy));
+      render(); syncInspector();
+      return;
+    }
+
+    if (drag.mode === 'rotate') {
+      const a = Math.atan2(q.y - drag.cy, q.x - drag.cx) * 180 / Math.PI + 90;
+      let r = normAngle(a - drag.start);
+      if (e.shiftKey) r = Math.round(r / 15) * 15;
+      p.rot = round(r * 10) / 10;
+      render(); syncInspector();
+      return;
+    }
+
+    // resize：支持 8 个方向 + 旋转 + 自由拉伸
+    const cos = Math.cos(drag.rot), sin = Math.sin(drag.rot);
+    const dx = q.x - drag.sx, dy = q.y - drag.sy;
+    const lx = dx * cos + dy * sin;
+    const ly = -dx * sin + dy * cos;
+    const c = drag.corner;
+    const sx = c.includes('e') ? 1 : (c.includes('w') ? -1 : 0);
+    const sy = c.includes('s') ? 1 : (c.includes('n') ? -1 : 0);
+
+    let w = drag.ow + sx * lx;
+    let h = drag.oh + sy * ly;
+    if (lockAspect && (sx || sy)) {
+      if (sx && sy) {
+        if (Math.abs(lx) >= Math.abs(ly)) h = w / drag.ratio; else w = h * drag.ratio;
+      } else if (sx) h = w / drag.ratio;
+      else w = h * drag.ratio;
+    }
+    w = Math.max(8, w); h = Math.max(8, h);
+
+    // 锚点：对边/对角中点（局部坐标），换算到世界
+    const ax = -sx * drag.ow / 2, ay = -sy * drag.oh / 2;
+    const Ax = drag.cx + ax * cos - ay * sin;
+    const Ay = drag.cy + ax * sin + ay * cos;
+    const bx = sx * w / 2, by = sy * h / 2;
+    const Cx = Ax + bx * cos - by * sin;
+    const Cy = Ay + bx * sin + by * cos;
+
+    p.w = round(w); p.h = round(h);
+    p.x = round(Cx - w / 2); p.y = round(Cy - h / 2);
+    render(); syncInspector();
+  });
+  window.addEventListener('pointerup', () => { if (drag) { scheduleSave(); drag = null; } });
+
+  function syncInspector() {
+    const p = parts[sel];
+    $('inspector').style.display = p ? 'block' : 'none';
+    $('emptyHint').style.display = p ? 'none' : 'block';
+    $('selName').textContent = p ? p.id : '—';
+    if (!p) return;
+    $('inX').value = p.x; $('inY').value = p.y; $('inW').value = p.w; $('inH').value = p.h;
+    $('inR').value = Math.round(p.rot * 10) / 10;
+    $('lockAspect').checked = lockAspect;
+    $('btnPin').textContent = p.pinned ? '解除固定' : '固定';
+    $('btnPin').classList.toggle('on', !!p.pinned);
+    $('btnDelete').style.display = 'block';
+    $('partState').textContent = p.missing ? '缺图（parts/' + p.id + '.png）' : (p.pinned ? '已固定' : '已加载');
+    $('fileInfo').textContent = 'parts/' + p.id + '.png';
+  }
+  ['inX', 'inY', 'inW', 'inH'].forEach(id => {
+    $(id).addEventListener('input', e => {
+      if(e.target.value==='') return;
+      const p = parts[sel]; if (!p) return;
+      if (p.pinned) return toast('已固定，先解除固定');
+      snap();
+      const key = id.slice(2).toLowerCase();
+      const v = ['w','h'].includes(key) ? Math.max(1,Math.round(+e.target.value||1)) : Math.round(+e.target.value||0);
+      if (key === 'w' && lockAspect) { p.h = Math.round(v / (p.w / p.h)); p.w = v; }
+      else if (key === 'h' && lockAspect) { p.w = Math.round(v * (p.w / p.h)); p.h = v; }
+      else p[key] = v;
+      render(); syncInspector();
+    });
+  });
+  $('inR').addEventListener('input', e => {
+    if(e.target.value==='') return;
+    const p = parts[sel]; if (!p) return;
+    if (p.pinned) return toast('已固定，先解除固定');
+    snap();
+    p.rot = normAngle(+e.target.value || 0);
+    render(); buildList(); syncInspector();
+  });
+  $('lockAspect').onchange = e => { lockAspect = e.target.checked; };
+  document.querySelectorAll('[data-rot]').forEach(b => {
+    b.onclick = () => {
+      const p = parts[sel]; if (!p) return;
+      if (p.pinned) return toast('已固定，先解除固定');
+      snap();
+      const d = +b.dataset.rot;
+      p.rot = d === 0 ? 0 : normAngle(p.rot + d);
+      render(); buildList(); syncInspector();
+    };
+  });
+
+  function reorder(mode) {
+    const p = parts[sel]; if (!p) return;
+    snap();
+    const i = sel;
+    const [item] = parts.splice(i, 1);
+    if (mode === 'up') parts.splice(Math.min(parts.length, i + 1), 0, item);
+    if (mode === 'down') parts.splice(Math.max(0, i - 1), 0, item);
+    if (mode === 'top') parts.push(item);
+    if (mode === 'bottom') parts.unshift(item);
+    sel = parts.indexOf(item);
+    parts.forEach((q, k) => q.z = k + 1);
+    buildList(); render(); syncInspector();
+  }
+  $('btnUp').onclick = () => reorder('up');
+  $('btnDown').onclick = () => reorder('down');
+  $('btnTop').onclick = () => reorder('top');
+  $('btnBottom').onclick = () => reorder('bottom');
+  $('btnHide').onclick = () => { const p = parts[sel]; if (!p) return; snap(); p.hidden = !p.hidden; buildList(); render(); };
+  $('btnCenterX').onclick = () => { const p = parts[sel]; if (!p) return; if (p.pinned) return toast('已固定'); snap(); p.x = Math.round((W - p.w) / 2); render(); syncInspector(); };
+  $('btnPin').onclick = () => {
+    const p = parts[sel]; if (!p) return;
+    snap();
+    p.pinned = !p.pinned;
+    buildList(); render(); syncInspector();
+    toast(p.pinned ? '已固定：不能再拖动/缩放/旋转' : '已解除固定');
+  };
+
+  function payload() {
+    return JSON.stringify({
+      parts: parts.map(p => ({ id: p.id, x: p.x, y: p.y, w: p.w, h: p.h, rot: p.rot, z: p.z, hidden: !!p.hidden, pinned: !!p.pinned })),
+      removed: [...removed]
+    });
+  }
+  function scheduleSave() {
+    dirty = true;
+    if (!autoSave) return;
+    clearTimeout(saveTimer);
+    saveTimer = setTimeout(doSave, 900);
+  }
+  let saveQueue=Promise.resolve(true);
+  function doSave() {
+    const data=payload();
+    saveQueue=saveQueue.catch(()=>false).then(async()=>{
+      try{
+        const r=await fetch('/api/save',{method:'POST',headers:{'Content-Type':'application/json'},body:data});
+        if(!r.ok){$('stSave').textContent='保存失败：'+await r.text();return false;}
+        if(payload()===data)dirty=false;
+        $('stSave').textContent='已保存 '+new Date().toLocaleTimeString();return true;
+      }catch(error){$('stSave').textContent='保存失败（离线）';return false;}
+    });
+    return saveQueue;
+  }
+  let renameTarget;
+  $('btnRename').onclick=()=>{const p=parts[sel];if(!p)return;renameTarget=p.id;$('renameName').value=p.id;$('renameError').textContent='';$('renameModal').classList.add('show');$('renameName').focus();$('renameName').select();};
+  $('renameCancel').onclick=()=>$('renameModal').classList.remove('show');
+  $('renameName').onkeydown=event=>{if(event.key==='Enter'){event.preventDefault();$('renameOk').click();}};
+  $('renameOk').onclick=async()=>{
+    const next=$('renameName').value.trim();
+    if(!/^[\p{L}\p{N}_-]{1,80}$/u.test(next)){$('renameError').textContent='名称需为 1–80 个中文、字母、数字、下划线或短横线';return;}
+    if(next===renameTarget){$('renameModal').classList.remove('show');return;}
+    const controls=[...document.querySelectorAll('button,input')],wasAutoSave=autoSave;
+    controls.forEach(el=>el.disabled=true);stage.inert=true;autoSave=false;clearTimeout(saveTimer);
+    try{
+      if(!await doSave())throw Error('请先修复工程保存失败的问题');
+      await studio.api('rename-part',{old:renameTarget,new:next});
+      dirty=false;const url=new URL(location.href);url.searchParams.set('part',next);location.replace(url);
+    }catch(error){$('renameError').textContent=error.message;autoSave=wasAutoSave;stage.inert=false;controls.forEach(el=>el.disabled=false);}
+  };
+  window.studioSave=doSave; $('btnSave').onclick = doSave;
+  $('btnDownload').onclick = () => {
+    const blob = new Blob([payload()], { type: 'application/json' });
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(blob); a.download = 'assembly-v4.json'; a.click();
+    setTimeout(() => URL.revokeObjectURL(a.href), 3000);
+  };
+  $('btnReloadParts').onclick = () => { refreshParts(true); toast('重新加载部件…'); };
+  $('btnReset').onclick = async () => {
+    if (!confirm('恢复清单初始位置，并恢复已删除的清单部件？（自定义部件保留）')) return;
+    parts.forEach(p => {
+      if (p.custom) return;
+      p.x = p.mx; p.y = p.my; p.w = p.mw; p.h = p.mh; p.rot = 0; p.hidden = false;
+    });
+    removed.clear();
+    buildList(); render(); syncInspector();
+    await doSave();
+    location.reload();
+  };
+  $('btnUndo').onclick = undo;
+
+  let showRef = true;
+  function applyRef() {
+    $('ref').style.display = showRef ? 'block' : 'none';
+    $('btnRef').classList.toggle('on', showRef);
+  }
+  $('btnRef').onclick = () => { showRef = !showRef; applyRef(); };
+  applyRef();
+
+  $('btnBg').onclick = () => {
+    stageWrap.classList.toggle('white');
+    $('btnBg').classList.toggle('on', stageWrap.classList.contains('white'));
+  };
+
+  function applyScale() {
+    if (fitMode === 'none') return;
+    const padW = 36, padH = 76;
+    const sw = (stageWrap.clientWidth - padW) / W;
+    const sh = (stageWrap.clientHeight - padH) / H;
+    const s = fitMode === 'width' ? sw : Math.min(sw, sh);
+    setScale(Math.min(s, 1));
+  }
+  function setScale(s) {
+    scale = s;
+    stage.style.transform = `scale(${scale})`;
+    stageBox.style.width = (W * scale) + 'px';
+    stageBox.style.height = (H * scale) + 'px';
+    $('stScale').textContent = `缩放 ${Math.round(scale * 100)}%`;
+  }
+  $('btnFit').onclick = () => { fitMode = 'both'; applyScale(); };
+  $('btn100').onclick = () => { fitMode = 'none'; setScale(1); };
+  window.addEventListener('resize', () => { if (fitMode !== 'none') applyScale(); });
+  stageWrap.addEventListener('wheel', e => {
+    if (!e.ctrlKey) return;
+    e.preventDefault();
+    setScale(clamp(scale * (e.deltaY < 0 ? 1.08 : 0.92), 0.2, 2.5));
+  }, { passive: false });
+
+  async function upload(id, file) {
+    if (!file || !/image\/png/.test(file.type)) throw new Error('请选择 PNG 文件');
+    const r = await fetch('/api/upload?id=' + encodeURIComponent(id), {
+      method: 'POST', headers: { 'Content-Type': 'image/png' }, body: file
+    });
+    if (!r.ok) throw new Error(await r.text());
+    return r.json();
+  }
+  $('btnReplace').onclick = () => {
+    const p = parts[sel]; if (!p) return;
+    const fi = $('fileInput');
+    fi.onchange = async () => {
+      const f = fi.files[0]; fi.value = '';
+      if (!f) return;
+      toast('上传 → ' + p.id + ' …');
+      try {
+        const j = await upload(p.id, f);
+        p.mtime = j.mtime; loadImage(p);
+        toast('已替换 ' + p.id);
+      } catch (e) { toast('上传失败：' + e.message, 3000); }
+    };
+    fi.click();
+  };
+  stage.addEventListener('dragover', e => { e.preventDefault(); });
+  stage.addEventListener('drop', async e => {
+    e.preventDefault();
+    const p = parts[sel];
+    if (!p) return toast('先在列表里选中一个部件，再拖 PNG 进来');
+    if (p.pinned) return toast('已固定，先解除固定');
+    const f = e.dataTransfer.files && e.dataTransfer.files[0];
+    if (!f) return;
+    try {
+      const j = await upload(p.id, f);
+      p.mtime = j.mtime; loadImage(p);
+      toast('已替换 ' + p.id);
+    } catch (err) { toast('上传失败：' + err.message, 3000); }
+  });
+
+  // 新增部件
+  let newDims = null;
+  $('btnAdd').onclick = () => {
+    $('newName').value = '';
+    $('newFile').value = '';
+    $('newPreview').textContent = '选择 PNG 后这里预览';
+    newDims = null;
+    $('modal').classList.add('show');
+    $('newName').focus();
+  };
+  $('newCancel').onclick = () => $('modal').classList.remove('show');
+  $('newFile').onchange = () => {
+    const f = $('newFile').files[0];
+    if (!f) return;
+    const url = URL.createObjectURL(f);
+    const im = new Image();
+    im.onload = () => {
+      newDims = { w: im.naturalWidth, h: im.naturalHeight };
+      $('newPreview').innerHTML = `<img src="${url}" alt="">`;
+      if (!$('newName').value) {
+        $('newName').value = 'part_' + (parts.length + 1);
+      }
+    };
+    im.src = url;
+  };
+  $('newOk').onclick = async () => {
+    const name = ($('newName').value || '').trim();
+    const f = $('newFile').files[0];
+    if (!/^[A-Za-z0-9_\-]{1,40}$/.test(name)) return toast('名称只能用字母/数字/_/-（1~40 字符）');
+    if (!f || !newDims) return toast('请选择一张 PNG');
+    if (parts.some(p => p.id === name)) return toast('名称已存在：' + name);
+    try {
+      const j = await upload(name, f);
+      // 按图片原始比例放到画布中央（太大就缩到 80%）
+      let w = newDims.w, h = newDims.h;
+      const maxW = W * 0.8, maxH = H * 0.8;
+      const s = Math.min(1, maxW / w, maxH / h);
+      w = Math.round(w * s); h = Math.round(h * s);
+      removed.delete(name);
+      const p = {
+        id: name, custom: true, z: parts.reduce((m, q) => Math.max(m, q.z), 0) + 1,
+        x: Math.round((W - w) / 2), y: Math.round((H - h) / 2), w, h, rot: 0,
+        mx: Math.round((W - w) / 2), my: Math.round((H - h) / 2), mw: w, mh: h,
+        hidden: false, pinned: false, img: null, missing: false, mtime: j.mtime
+      };
+      snap(); parts.push(p);
+      sel = parts.length - 1;
+      loadImage(p);
+      $('modal').classList.remove('show');
+      buildList(); render(); syncInspector();
+      doSave();
+      toast('已新增部件 ' + name + '（' + w + '×' + h + '）');
+    } catch (e) { toast('新增失败：' + e.message, 3000); }
+  };
+  let delTarget = -1;
+  $('btnDelete').onclick = () => {
+    const p = parts[sel]; if (!p) return;
+    delTarget = sel;
+    $('delName').textContent = p.id;
+    $('delFile').checked = !!p.custom;
+    $('delModal').classList.add('show');
+  };
+  $('delCancel').onclick = () => $('delModal').classList.remove('show');
+  $('delOk').onclick = async () => {
+    const p = parts[delTarget];
+    if (!p) return;
+    const delFile = $('delFile').checked;
+    const id = p.id; snap();
+    if (delFile) {
+      try { await fetch('/api/delete?id=' + encodeURIComponent(id), { method: 'POST' }); } catch (e) {}
+    }
+    parts = parts.filter(q => q !== p);
+    removed.add(id);
+    if (sel >= parts.length) sel = parts.length - 1;
+    if (sel >= 0 && !parts[sel]) sel = -1;
+    $('delModal').classList.remove('show');
+    buildList(); render(); syncInspector();
+    doSave();
+    toast('已删除 ' + id + (delFile ? '（PNG 已移入工程 trash）' : '（文件保留）'));
+  };
+
+  window.addEventListener('keydown', e => {
+    if (e.target.matches('input,textarea')) return;
+    if (e.ctrlKey && e.key.toLowerCase() === 'z') { e.preventDefault(); undo(); return; }
+    if (e.key === 'Escape') { sel = -1; buildList(); render(); syncInspector(); return; }
+    if (sel < 0) return;
+    const p = parts[sel];
+    if (e.key === 'Delete') { e.preventDefault(); $('btnDelete').click(); return; }
+    if (e.key.toLowerCase() === 'l') { $('btnPin').click(); return; }
+    if (p.pinned) return;
+    const step = e.shiftKey ? 10 : 1;
+    if (e.key === 'ArrowLeft') { snap(); p.x -= step; render(); syncInspector(); e.preventDefault(); }
+    if (e.key === 'ArrowRight') { snap(); p.x += step; render(); syncInspector(); e.preventDefault(); }
+    if (e.key === 'ArrowUp') { snap(); p.y -= step; render(); syncInspector(); e.preventDefault(); }
+    if (e.key === 'ArrowDown') { snap(); p.y += step; render(); syncInspector(); e.preventDefault(); }
+    if (e.key === ',') { snap(); p.rot = normAngle(p.rot - (e.shiftKey ? 15 : 1)); render(); buildList(); syncInspector(); e.preventDefault(); }
+    if (e.key === '.') { snap(); p.rot = normAngle(p.rot + (e.shiftKey ? 15 : 1)); render(); buildList(); syncInspector(); e.preventDefault(); }
+    if (e.key === '[') reorder('down');
+    if (e.key === ']') reorder('up');
+    if (e.key.toLowerCase() === 'h') $('btnHide').click();
+  });
+
+  window.addEventListener('beforeunload', () => {
+    if (!dirty || !autoSave) return;
+    try { navigator.sendBeacon('/api/save', new Blob([payload()], { type: 'application/json' })); } catch (e) {}
+  });
+
+  load().then(() => setTimeout(() => { if (fitMode !== 'none') applyScale(); }, 250))
+    .catch(err => { $('hint').textContent = '加载失败：' + err; });
+  window.addEventListener('load', () => setTimeout(() => { if (fitMode !== 'none') applyScale(); }, 250));
+})();
+</script>
+
+</body>
+</html>

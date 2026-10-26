@@ -1,0 +1,298 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8"><link rel="icon" href="data:,">
+<title>角色工程台 · 节点绑定</title><meta name="viewport" content="width=device-width,initial-scale=1"><script src="/web/common.js"></script>
+<style>
+  :root{--bg:#0d1015;--panel:#161b23;--line:#2a3140;--text:#e8eef7;--muted:#8fa0b8;--accent:#7c9cff}
+  *{box-sizing:border-box}
+  html,body{height:100%;margin:0}
+  body{display:flex;background:var(--bg);color:var(--text);font:12.5px/1.5 "Segoe UI","Microsoft YaHei",sans-serif;overflow:hidden}
+  aside{width:250px;flex:0 0 250px;background:var(--panel);border-right:1px solid var(--line);display:flex;flex-direction:column;min-height:0}
+  aside.right{border-right:0;border-left:1px solid var(--line);width:250px;flex:0 0 250px}
+  header{height:44px;display:flex;align-items:center;gap:8px;padding:0 12px;background:var(--panel);border-bottom:1px solid var(--line);position:absolute;left:0;right:0;top:0;z-index:5}
+  body{padding-top:44px}
+  button{background:#1e2430;color:var(--text);border:1px solid var(--line);border-radius:7px;padding:6px 9px;cursor:pointer;font:inherit;font-size:12px}
+  button:hover{border-color:#3d4a63}
+  button.primary{background:#2d5bd7;border-color:#3b6ff0}
+  button.on{background:#243356;border-color:#3b6ff0}
+  .head{padding:8px 10px;border-bottom:1px solid var(--line);color:var(--muted);font-size:11.5px;display:flex;justify-content:space-between;gap:6px;align-items:center}
+  #nodes,#parts{overflow:auto;flex:1;padding:6px}
+  .row{display:flex;align-items:center;gap:5px;padding:3px 4px;border-radius:6px;cursor:pointer}
+  .row:hover{background:#1e2430}
+  .row.sel{background:#243356}
+  .row .nm{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .row input{width:44px;background:#0e1117;border:1px solid var(--line);color:var(--text);border-radius:5px;padding:2px 3px;font:inherit;font-size:11px}
+  .row select{background:#0e1117;border:1px solid var(--line);color:var(--text);border-radius:5px;padding:2px;font:inherit;font-size:11px;max-width:74px}
+  #wrap{flex:1;position:relative;overflow:auto;background:#0b0d11;display:flex;align-items:center;justify-content:center}
+  #stage{position:relative;transform-origin:center center}
+  .part{position:absolute;left:0;top:0;transform-origin:0 0;pointer-events:none}
+  .part img{width:100%;height:100%;display:block}
+  .dot{position:absolute;width:15px;height:15px;margin:-8px 0 0 -8px;border-radius:50%;background:#ffd166;border:2px solid #4a2a00;z-index:9999;cursor:grab;box-shadow:0 0 0 2px rgba(0,0,0,.3)}
+  .dot.sel{background:#7c9cff;border-color:#12234e}
+  .dot span{position:absolute;left:16px;top:-4px;font-size:10px;color:#ffd166;white-space:nowrap;text-shadow:0 1px 2px #000}
+  #status{color:var(--muted);font-size:11px;padding:6px 10px;border-top:1px solid var(--line);min-height:26px}
+  .k{color:var(--muted);font-size:11px}
+@media(max-width:900px){body{display:grid;grid-template-columns:1fr 1fr;height:auto;overflow:auto}#wrap{grid-column:1/-1;grid-row:1;height:520px}body>aside,body>aside.right{width:auto;flex-basis:auto;min-height:360px;max-height:550px}header{overflow-x:auto;white-space:nowrap;position:fixed}header .k{display:none}}
+</style>
+</head>
+<body>
+<header>
+  <b>绑定父级</b>
+  <span class="k">左边节点 / 中间拖动黄点改 pivot / 右边给部件选节点</span>
+  <span style="flex:1"></span>
+  <button id="auto">自动生成</button>
+  <button id="save" class="primary">保存绑定</button>
+  <button onclick="studioNavigate('editor.html')">① 部件组装</button><button onclick="studioNavigate('features.html')">功能配置</button><button onclick="studioNavigate('calibration.html')">表情／眨眼／坐姿</button><button onclick="studioNavigate('motion/')">③ 动作预览</button><button onclick="studioNavigate('export.html')">④ 检查导出</button><button onclick="studioNavigate('/')">工程首页</button>
+</header>
+
+<aside>
+  <div class="head"><span>节点</span><span id="nodeCount" class="k">0</span></div>
+  <div id="nodes"></div>
+  <div style="padding:8px 10px;border-top:1px solid var(--line);display:flex;gap:5px">
+    <input id="newNode" placeholder="新节点名" style="flex:1;min-width:0;background:#0e1117;border:1px solid var(--line);color:var(--text);border-radius:6px;padding:4px 6px;font:inherit">
+    <button id="addNode">加</button>
+  </div>
+  <div id="status"></div>
+</aside>
+
+<div id="wrap"><div id="stage"></div></div>
+
+<aside class="right">
+  <div class="head"><span>部件 → 节点</span><span id="partCount" class="k">0</span></div>
+  <div id="parts"></div>
+</aside>
+
+<script type="module">
+let W = 1037, H = 1517;
+const stage = document.getElementById('stage');
+const wrap = document.getElementById('wrap');
+const nodesEl = document.getElementById('nodes');
+const partsEl = document.getElementById('parts');
+const statusEl = document.getElementById('status');
+
+let rig = { nodes: {}, assign: {} };
+let parts = [];
+let selNode = null;
+let scale = 1;
+
+const man = await (await fetch('parts-manifest.json?t=' + Date.now())).json().catch(() => ({ parts: [] }));
+let asm = await (await fetch('assembly-v4.json?t=' + Date.now())).json().catch(() => ({ parts: [] }));
+
+[W,H]=man.canvas||[1037,1517];
+// 装配 + 清单合并
+const base = new Map((man.parts || []).map((p) => [p.id, p]));
+parts = (asm.parts || []).map((p) => ({
+  id: p.id, x: p.x, y: p.y, w: p.w, h: p.h, rot: p.rot || 0, z: p.z || 1
+})).filter((p) => p.id && p.w > 0);
+if (!parts.length) {
+  parts = (man.parts || []).map((p) => ({ id: p.id, x: p.box[0], y: p.box[1], w: p.box[2], h: p.box[3], rot: 0, z: p.z }));
+}
+
+try { rig = await (await fetch('/api/rig?t=' + Date.now())).json(); } catch (e) {}
+if (!rig || !rig.nodes) rig = { nodes: {}, assign: {} };
+
+function fit() {
+  const s = Math.min((wrap.clientWidth - 30) / W, (wrap.clientHeight - 30) / H);
+  scale = Math.min(s, 1);
+  stage.style.width = W + 'px';
+  stage.style.height = H + 'px';
+  stage.style.transform = `scale(${scale})`;
+}
+window.addEventListener('resize', fit);
+
+function el(tag, cls, text) {
+  const e = document.createElement(tag);
+  if (cls) e.className = cls;
+  if (text != null) e.textContent = text;
+  return e;
+}
+
+function renderStage() {
+  stage.innerHTML = '';
+  for (const p of parts.slice().sort((a, b) => a.z - b.z)) {
+    if ((asm.parts||[]).find(q=>q.id===p.id)?.hidden || (asm.removed||[]).includes(p.id)) continue;
+    const d = el('div', 'part');
+    d.style.left = p.x + 'px';
+    d.style.top = p.y + 'px';
+    d.style.width = p.w + 'px';
+    d.style.height = p.h + 'px';
+    d.style.zIndex = 10 + p.z;
+    d.style.transform = `rotate(${p.rot}deg)`;
+    d.style.transformOrigin = `${p.w / 2}px ${p.h / 2}px`;
+    const img = new Image();
+    img.src = 'parts/' + p.id + '.png?t=' + Date.now();
+    img.onerror = () => { d.style.border = '1px dashed #555'; };
+    d.appendChild(img);
+    stage.appendChild(d);
+  }
+  for (const [name, nd] of Object.entries(rig.nodes)) {
+    const dot = el('div', 'dot' + (name === selNode ? ' sel' : ''));
+    dot.style.left = nd.pivot[0] + 'px';
+    dot.style.top = nd.pivot[1] + 'px';
+    dot.appendChild(el('span', null, name));
+    dot.dataset.node = name;
+    dot.addEventListener('pointerdown', (e) => {
+      e.preventDefault();
+      selNode = name;
+      renderNodes();
+      stage.querySelectorAll('.dot').forEach(d=>d.classList.toggle('sel',d.dataset.node===name));
+      const move = (ev) => {
+        const r = stage.getBoundingClientRect();
+        const x = Math.round((ev.clientX - r.left) / scale);
+        const y = Math.round((ev.clientY - r.top) / scale);
+        rig.nodes[name].pivot = [x, y];
+        dot.style.left = x + 'px';
+        dot.style.top = y + 'px';
+        const row = nodesEl.querySelector(`[data-name="${name}"]`);
+        if (row) { row.querySelector('.px').value = x; row.querySelector('.py').value = y; }
+      };
+      const up = () => { window.removeEventListener('pointermove', move); window.removeEventListener('pointerup', up); renderStage(); saveRig(); };
+      window.addEventListener('pointermove', move);
+      window.addEventListener('pointerup', up);
+    });
+    stage.appendChild(dot);
+  }
+}
+
+function renderNodes() {
+  nodesEl.innerHTML = '';
+  const names = Object.keys(rig.nodes);
+  for (const name of names) {
+    const nd = rig.nodes[name];
+    const row = el('div', 'row' + (name === selNode ? ' sel' : ''));
+    row.dataset.name = name;
+    row.appendChild(el('span', 'nm', name));
+    const px = el('input', 'px'); px.type = 'number'; px.value = nd.pivot[0];
+    const py = el('input', 'py'); py.type = 'number'; py.value = nd.pivot[1];
+    px.title = 'pivot X'; py.title = 'pivot Y';
+    px.oninput = () => { if(px.value==='')return; nd.pivot[0] = Math.round(+px.value || 0); renderStage(); saveRig(); };
+    py.oninput = () => { if(py.value==='')return; nd.pivot[1] = Math.round(+py.value || 0); renderStage(); saveRig(); };
+    row.append(px, py);
+    const parent = el('select');
+    const optNone = el('option', null, '—父级—'); optNone.value = '';
+    parent.appendChild(optNone);
+    for (const n of names) {
+      if (n === name) continue;
+      let ancestor=n,seen=new Set(),cycle=false;while(ancestor&&!seen.has(ancestor)){if(ancestor===name){cycle=true;break;}seen.add(ancestor);ancestor=rig.nodes[ancestor]?.parent;}if(cycle)continue;
+      const o = el('option', null, n); o.value = n;
+      parent.appendChild(o);
+    }
+    parent.value = nd.parent || '';
+    parent.onchange = () => { nd.parent = parent.value || null; saveRig(); };
+    row.appendChild(parent);
+    const del = el('button', null, '×');
+    del.onclick = () => {
+      delete rig.nodes[name];
+      for (const k of Object.keys(rig.nodes)) if (rig.nodes[k].parent === name) rig.nodes[k].parent = null;
+      for (const k of Object.keys(rig.assign)) if (rig.assign[k] === name) delete rig.assign[k];
+      selNode = null;
+      renderNodes(); renderParts(); renderStage(); saveRig();
+    };
+    row.appendChild(del);
+    row.onclick = (e) => { if (e.target.tagName === 'INPUT' || e.target.tagName === 'SELECT') return; selNode = name; renderNodes(); renderStage(); };
+    nodesEl.appendChild(row);
+  }
+  document.getElementById('nodeCount').textContent = names.length;
+}
+
+function renderParts() {
+  partsEl.innerHTML = '';
+  const names = Object.keys(rig.nodes);
+  for (const p of parts) {
+    const row = el('div', 'row');
+    row.appendChild(el('span', 'nm', p.id));
+    const sel = el('select');
+    const o0 = el('option', null, '—'); o0.value = '';
+    sel.appendChild(o0);
+    for (const n of names) { const o = el('option', null, n); o.value = n; sel.appendChild(o); }
+    sel.value = rig.assign[p.id] || '';
+    sel.onchange = () => {
+      if (sel.value) rig.assign[p.id] = sel.value; else delete rig.assign[p.id];
+      saveRig();
+    };
+    row.appendChild(sel);
+    partsEl.appendChild(row);
+  }
+  document.getElementById('partCount').textContent = parts.length;
+}
+
+let saveChain=Promise.resolve(true);
+function saveRig() {
+  const payload=JSON.stringify(rig);
+  saveChain=saveChain.catch(()=>false).then(async()=>{
+    const r=await fetch('/api/save-rig',{method:'POST',headers:{'Content-Type':'application/json'},body:payload});
+    statusEl.textContent=r.ok?'已保存 rig.json':'保存失败：'+await r.text();return r.ok;
+  });
+  return saveChain;
+}
+
+function guess() {
+  const cx = (arr) => arr.length ? Math.round(arr.reduce((s, p) => s + p.x + p.w / 2, 0) / arr.length) : Math.round(W / 2);
+  const cy = (arr) => arr.length ? Math.round(arr.reduce((s, p) => s + p.y + p.h / 2, 0) / arr.length) : Math.round(H / 2);
+  const by = (re) => parts.filter((p) => re.test(p.id));
+  const bottom = Math.max(...parts.map((p) => p.y + p.h), H);
+  const face = by(/face/i)[0];
+  const eyes = by(/eye|iris|iris|pupil/i);
+  const brows = by(/brow/i);
+  const mouth = by(/mouth/i)[0];
+  const hair = by(/hair|braid|bang|lock|ribbon|clip|headpiece|part_(11|6|8|9|10|21|22|1|7)/i);
+  const legs = by(/leg|boot|thigh|sock|foot|part_(16|17)/i);
+  const arms = by(/arm|sleeve|hand|part_(12|13)/i);
+  const rest = parts.filter((p) => !hair.includes(p) && !legs.includes(p) && !arms.includes(p) && p !== face);
+  const eyeC = eyes.length ? [cx(eyes), cy(eyes) - 20] : [Math.round(W / 2), Math.round(H * 0.33)];
+  const headPivot = face ? [Math.round(face.x + face.w / 2), Math.round(face.y + face.h * 0.95)] : [Math.round(W / 2), Math.round(H * 0.38)];
+  const nodes = {
+    body: { pivot: [Math.round(cx(legs) || W / 2), bottom], parent: null },
+    torso: { pivot: [Math.round(cx(rest) || W / 2), Math.round(cy(rest) || H * 0.6)], parent: 'body' },
+    head: { pivot: headPivot, parent: 'torso' },
+    hair: { pivot: [Math.round(cx(hair) || W / 2), Math.round(Math.min(...hair.map((p) => p.y), 0) + 40) || 100], parent: 'head' },
+    eyes: { pivot: eyeC, parent: 'head' },
+    iris: { pivot: eyeC, parent: 'eyes' },
+    brow: { pivot: brows.length ? [cx(brows), cy(brows)] : [eyeC[0], eyeC[1] - 60], parent: 'head' },
+    mouth: { pivot: mouth ? [Math.round(mouth.x + mouth.w / 2), Math.round(mouth.y + mouth.h / 2)] : [eyeC[0], eyeC[1] + 90], parent: 'head' },
+    armNear: { pivot: arms.length ? [cx(arms.filter((p) => p.x < W / 2)), cy(arms.filter((p) => p.x < W / 2)) - 120] : [Math.round(W * 0.32), Math.round(H * 0.5)], parent: 'torso' },
+    armFar: { pivot: arms.length ? [cx(arms.filter((p) => p.x >= W / 2)), cy(arms.filter((p) => p.x >= W / 2)) - 120] : [Math.round(W * 0.68), Math.round(H * 0.5)], parent: 'torso' },
+    legNear: { pivot: legs.length ? [Math.round(Math.min(...legs.map((p) => p.x + p.w / 2))), Math.round(Math.min(...legs.map((p) => p.y)))] : [Math.round(W * 0.42), Math.round(H * 0.72)], parent: 'body' },
+    legFar: { pivot: legs.length ? [Math.round(Math.max(...legs.map((p) => p.x + p.w / 2))), Math.round(Math.min(...legs.map((p) => p.y)))] : [Math.round(W * 0.58), Math.round(H * 0.72)], parent: 'body' }
+  };
+  const assign = {};
+  const left = (p) => p.x + p.w / 2 < W / 2;
+  for (const p of parts) {
+    let n = 'torso';
+    if (/iris/i.test(p.id)) n = 'iris';
+    else if (/eye|lash|squeeze/i.test(p.id)) n = 'eyes';
+    else if (/brow/i.test(p.id)) n = 'brow';
+    else if (/mouth/i.test(p.id)) n = 'mouth';
+    else if (/face/i.test(p.id)) n = 'head';
+    else if (/arm|sleeve|hand|part_(12|13)$/i.test(p.id)) n = left(p) ? 'armNear' : 'armFar';
+    else if (/leg|boot|thigh|sock|foot|part_(16|17)$/i.test(p.id)) n = left(p) ? 'legNear' : 'legFar';
+    else if (/hair|braid|bang|lock|ribbon|clip|headpiece|part_(11|6|8|9|10|21|22|1|7)$/i.test(p.id)) n = 'hair';
+    else if (p.y + p.h > H * 0.82) n = left(p) ? 'legNear' : 'legFar';
+    assign[p.id] = n;
+  }
+  rig = { nodes, assign };
+  selNode = 'head';
+  renderNodes(); renderParts(); renderStage(); saveRig();
+  statusEl.textContent = '已自动生成，点黄点可拖 pivot，检查部件归属后保存';
+}
+
+document.getElementById('addNode').onclick = () => {
+  const name = document.getElementById('newNode').value.trim();
+  if (!name) return;
+  if (rig.nodes[name]) { statusEl.textContent = '节点已存在'; return; }
+  rig.nodes[name] = { pivot: [Math.round(W / 2), Math.round(H / 2)], parent: 'body' };
+  document.getElementById('newNode').value = '';
+  renderNodes(); renderParts(); renderStage(); saveRig();
+};
+document.getElementById('auto').onclick = async () => {if(Object.keys(rig.nodes).length&&!confirm('按部件名称和画布比例生成基础节点，会覆盖当前绑定；自动结果仍需手动检查。继续？'))return;try{rig=await studio.api('auto-rig',{});selNode='head';renderNodes();renderParts();renderStage();statusEl.textContent='已生成基础骨架，请检查肩、髋、头颈的锚点。';}catch(e){statusEl.textContent=e.message;}};
+window.studioSave=saveRig; document.getElementById('save').onclick = saveRig;
+
+fit();
+renderNodes();
+renderParts();
+renderStage();
+setTimeout(fit, 200);
+</script>
+</body>
+</html>

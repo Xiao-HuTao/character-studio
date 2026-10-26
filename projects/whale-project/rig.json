@@ -1,0 +1,164 @@
+{
+  "nodes": {
+    "body": {
+      "pivot": [
+        650,
+        1363
+      ],
+      "parent": null
+    },
+    "torso": {
+      "pivot": [
+        650,
+        1010
+      ],
+      "parent": "body"
+    },
+    "head": {
+      "pivot": [
+        660,
+        830
+      ],
+      "parent": "torso"
+    },
+    "hair": {
+      "pivot": [
+        660,
+        830
+      ],
+      "parent": "head"
+    },
+    "eyes": {
+      "pivot": [
+        750,
+        689.5
+      ],
+      "parent": "head"
+    },
+    "iris": {
+      "pivot": [
+        750,
+        689.5
+      ],
+      "parent": "eyes"
+    },
+    "brow": {
+      "pivot": [
+        700,
+        620
+      ],
+      "parent": "head"
+    },
+    "mouth": {
+      "pivot": [
+        765.5,
+        769.5
+      ],
+      "parent": "head"
+    },
+    "armNear": {
+      "pivot": [
+        572,
+        890
+      ],
+      "parent": "torso"
+    },
+    "armFar": {
+      "pivot": [
+        785,
+        905
+      ],
+      "parent": "torso"
+    },
+    "legNear": {
+      "pivot": [
+        568,
+        1085
+      ],
+      "parent": "body"
+    },
+    "legFar": {
+      "pivot": [
+        735,
+        1085
+      ],
+      "parent": "body"
+    },
+    "tail": {
+      "pivot": [
+        440,
+        1100
+      ],
+      "parent": "body"
+    },
+    "finNear": {
+      "pivot": [
+        402,
+        690
+      ],
+      "parent": "head"
+    },
+    "finFar": {
+      "pivot": [
+        888,
+        680
+      ],
+      "parent": "head"
+    },
+    "ahoge": {
+      "pivot": [
+        600,
+        300
+      ],
+      "parent": "head"
+    },
+    "skirt": {
+      "pivot": [
+        650,
+        1010
+      ],
+      "parent": "body"
+    },
+    "skirtSit": {
+      "pivot": [
+        650,
+        1010
+      ],
+      "parent": "body"
+    }
+  },
+  "assign": {
+    "hair_back": "hair",
+    "tail": "tail",
+    "hair_back_curl": "hair",
+    "arm_far": "armFar",
+    "leg_back": "legNear",
+    "leg_front": "legFar",
+    "torso_up": "torso",
+    "hair_front_right": "hair",
+    "arm_far_end_front": "armFar",
+    "skirt": "skirt",
+    "skirt_sit": "skirtSit",
+    "hair_front_left": "hair",
+    "waist_bow_front": "skirt",
+    "waist_bow_sit_front": "skirtSit",
+    "arm_near": "armNear",
+    "fin_far": "finFar",
+    "sidelocks": "hair",
+    "face": "head",
+    "eye_creases": "head",
+    "brows": "head",
+    "headdress": "head",
+    "fin_near": "finNear",
+    "bow": "head",
+    "bangs": "hair",
+    "ahoge": "ahoge",
+    "eye_near_ball": "eyes",
+    "eye_near_iris": "iris",
+    "eye_near_lash": "eyes",
+    "eye_far_ball": "eyes",
+    "eye_far_iris": "iris",
+    "eye_far_lash": "eyes",
+    "mouth_neutral": "mouth"
+  }
+}
